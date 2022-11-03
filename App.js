@@ -1,20 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import 'react-native-gesture-handler';
+import React from 'react';
+import PharmacyBottomNavBar from './components/PharmacyBottomNavBar';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Doc And Pills!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+        {/* <Stack.Navigator>
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="DriverScan" component={DriverScan} />
+          <Stack.Screen
+            name="Easy Going"
+            component={BottomNavBar}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator> */}
+        <PharmacyBottomNavBar />
+
+      </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
