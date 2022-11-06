@@ -33,7 +33,7 @@ export default function Register({ navigation }) {
 
   
 
-  const onSignUpPressed = () => {
+  const onSignUpPressed = async () => {
     const payload = {
       name: name,
       email: email,
@@ -47,10 +47,10 @@ export default function Register({ navigation }) {
       passwordCheck: passwordCheck,
     };
     console.log(payload);
-    axios.post('https://doc-n-pills.herokuapp.com/users/register', payload)
+    await axios.post('https://doc-n-pills.herokuapp.com/users/register',payload)
     .then((data) => {
-      console.log(data.data.user.email);
-    }).catch((err) => {console.log(err)})
+      console.log(data);
+    }).catch((err) => {console.log(err.response.data.msg)})
 
     // fetch(`${API_URL}users/register`, {
     //   method: "POST",

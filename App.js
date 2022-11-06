@@ -7,6 +7,7 @@ import 'react-native-gesture-handler';
 import Login from './components/Login';
 import Register from './components/Register';
 import SysAdmin from './components/SysAdmin';
+import AdminWelcome from './components/AdminWelcome';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -14,7 +15,8 @@ export default function App() {
     <>
       <NavigationContainer>
         <Stack.Navigator>
-          {/* <Stack.Screen name="Login" component={Login} /> */}
+          <Stack.Screen name="Welcome Admin" component={AdminWelcome} />
+          <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Register" component={Register} />
           <Stack.Screen name="SysAdmin" component={SysAdmin} />
           {/* <Stack.Screen

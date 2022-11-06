@@ -6,9 +6,10 @@ import { theme } from '../core/theme'
 export default function Button({ mode, style, ...props }) {
   return (
     <PaperButton
+      color='#1e90ff'
       style={[
         styles.button,
-        mode === "outlined" && { backgroundColor: "#0d316b" },
+        mode === "outlined",
         style,
       ]}
       labelStyle={styles.text}
