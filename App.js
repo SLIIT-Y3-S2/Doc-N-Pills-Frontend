@@ -1,13 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import 'react-native-gesture-handler';
 import Login from './components/Login';
 import Register from './components/Register';
 import SysAdmin from './components/SysAdmin';
 import AdminWelcome from './components/AdminWelcome';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import "react-native-gesture-handler";
+import PharmacyBottomNavBar from "./components/PharmacyBottomNavBar";
+import AddMedicineForm from "./components/AddMedicineForm";
+import UpdateMedicineForm from "./components/UpdateMedicineForm";
+import PatientBottomNavBar from "./components/PatientBottomNavBar";
+import PatientRegisterForm from "./components/PatientRegisterForm";
+
+const Stack = createStackNavigator();
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -24,17 +31,22 @@ export default function App() {
             component={BottomNavBar}
             options={{ headerShown: false }}
           /> */}
-        </Stack.Navigator>
-      </NavigationContainer>
+    
+        {/* <Stack.Screen
+          name="DocNPills"
+          component={PharmacyBottomNavBar}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Add Medicine" component={AddMedicineForm} />
+        <Stack.Screen name="Update Medicine" component={UpdateMedicineForm} /> */}
+        <Stack.Screen
+          name="PatientNavBar"
+          component={PatientBottomNavBar}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Register" component={PatientRegisterForm} />
+      </Stack.Navigator>
+    </NavigationContainer>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
