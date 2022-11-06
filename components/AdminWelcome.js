@@ -11,7 +11,7 @@ const AdminWelcome = () => {
     <Background>
       <Logo />
       <Header>Welcome!</Header>
-      <Button mode="contained">Login</Button>
+      <Button mode="contained" style={{backgroundColor:"#1e90ff"}}>LOGIN</Button>
       <View
   style={{
     borderBottomColor: 'black',

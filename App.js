@@ -44,7 +44,7 @@ export default function App() {
           component={PatientBottomNavBar}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Register" component={PatientRegisterForm} />
+        <Stack.Screen name="User Register" component={PatientRegisterForm} />
       </Stack.Navigator>
     </NavigationContainer>
     </>
