@@ -1,38 +1,41 @@
-import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import * as React from 'react'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import Home from "./Home";
-import Medicines from "./Medicines";
-import PharmacyProfile from "./PharmacyProfile";
-import AboutUs from "./AboutUs";
+import PatientDashboard from './PatientDashBoard';
+import SearchDoctor from './SearchDoctor';
+import SearchMedicine from './SearchMedicine';
+import PatientProfile from './PatientProfile';
+import AboutUs from './AboutUs';
 
-const home = "Home";
-const medicines = "Medicines";
+const dashboard = "Dashboard";
+const searchDoctor = "Search Doctor";
+const searchMedicine = "Search Medicine";
 const profile = "Profile";
 const about = "About Us";
 
 const Tab = createBottomTabNavigator();
 
-const PharmacyBottomNavBar = () => {
+const PatientBottomNavBar = () => {
   return (
     <Tab.Navigator
-      initialRouteName={home}
+      initialRouteName={dashboard}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          let rn = route.name;
+          let routerName = route.name;
 
-          if (rn === home) {
+          if (routerName === dashboard) {
             iconName = focused ? "home" : "home-outline";
-          } else if (rn === medicines) {
+          } else if (routerName === searchMedicine) {
             iconName = focused ? "medkit" : "medkit-outline";
-          } else if (rn === about) {
+          } else if (routerName === searchDoctor) {
+            iconName = focused ? "people" : "people-outline";
+          } else if (routerName === about) {
             iconName = focused
               ? "information-circle"
               : "information-circle-outline";
-          } else if (rn === profile) {
+          } else if (routerName === profile) {
             iconName = focused ? "person-circle" : "person-circle-outline";
           }
 
@@ -46,12 +49,13 @@ const PharmacyBottomNavBar = () => {
         style: { padding: 10, height: 70 },
       }}
     >
-      <Tab.Screen name={home} component={Home} />
-      <Tab.Screen name={medicines} component={Medicines} />
+      <Tab.Screen name={searchDoctor} component={SearchDoctor} />
+      <Tab.Screen name={searchMedicine} component={SearchMedicine} />
+      <Tab.Screen name={dashboard} component={PatientDashboard} />
       <Tab.Screen name={about} component={AboutUs} />
-      <Tab.Screen name={profile} component={PharmacyProfile} />
+      <Tab.Screen name={profile} component={PatientProfile} />
     </Tab.Navigator>
   );
-};
+}
 
-export default PharmacyBottomNavBar;
+export default PatientBottomNavBar

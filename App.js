@@ -5,25 +5,28 @@ import 'react-native-gesture-handler';
 import React from 'react';
 // import PharmacyBottomNavBar from './components/PharmacyBottomNavBar';
 import ChannelingCenterBottomNavBar from './components/ChannelingCenterBottomNavBar';
+import PharmacyBottomNavBar from "./components/PharmacyBottomNavBar";
+import AddMedicineForm from "./components/AddMedicineForm";
+import UpdateMedicineForm from "./components/UpdateMedicineForm";
+import PatientBottomNavBar from "./components/PatientBottomNavBar";
+import PatientRegisterForm from "./components/PatientRegisterForm";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-        {/* <Stack.Navigator>
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="DriverScan" component={DriverScan} />
-          <Stack.Screen
-            name="Easy Going"
-            component={BottomNavBar}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator> */}
-        {/* <PharmacyBottomNavBar /> */}
-        <ChannelingCenterBottomNavBar />
-
-      </NavigationContainer>
+        
+      <Stack.Navigator>
+        <Stack.Screen
+          name="DocNPills"
+          component={ChannelingCenterBottomNavBar}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Add Doctor" component={AddDoctorForm} />
+        <Stack.Screen name="Update Doctor" component={UpdateDoctorForm} />
+     
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
