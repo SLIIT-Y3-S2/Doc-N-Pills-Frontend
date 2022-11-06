@@ -2,23 +2,36 @@ import React from "react";
 import { SafeAreaView, Text, ScrollView, StyleSheet, View } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { useState } from "react";
+import axios from "axios";
 
-const AddMedicineForm = () => {
+const AddMedicineForm = ({ navigation }) => {
   const [validated, setvalidated] = useState(false);
-  const [bname, setBrandName] = useState("");
-  const [mterm, setMedicalTerm] = useState("");
-  const [type, setType] = useState("");
-  const [stock, setStock] = useState("");
-  const [price, setPrice] = useState("");
-  const [dose, setDose] = useState("");
+  const [bname, setBrandName] = useState(null);
+  const [mterm, setMedicalTerm] = useState(null);
+  const [type, setType] = useState(null);
+  const [stock, setStock] = useState(null);
+  const [price, setPrice] = useState(null);
+  const [dose, setDose] = useState(null);
 
-  const Resetform = () => {
-    setBrandName(null);
-    setMedicalTerm(null);
-    setType(null);
-    setStock(null);
-    setPrice(null);
-    setDose(null);
+  const checkSubmit = async () => {
+    const newMedicine = {
+      brandName: bname,
+      medicalTerm: mterm,
+      price: price,
+      qty: stock,
+      type: type,
+      dose: dose,
+      pharmacyName: "Pharmacy 1",
+    };
+
+    await axios
+      .post("https://doc-n-pills.herokuapp.com/medicine", newMedicine)
+      .then(() => {
+        alert("Medicine Added Successfully");
+      })
+      .catch((err) => {
+        alert("Error");
+      });
   };
 
   return (
@@ -93,21 +106,14 @@ const AddMedicineForm = () => {
         />
 
         <Button
-          onPress={() => console.log(bname)}
           mode="contained"
           buttonColor="#1e90ff"
           style={styles.button}
+          onPress={() => {
+            checkSubmit(), navigation.navigate("DocNPills");
+          }}
         >
           ADD
-        </Button>
-
-        <Button
-          onPress={() => Resetform()}
-          mode="contained"
-          buttonColor="#87cefa"
-          style={styles.button}
-        >
-          RESET
         </Button>
       </SafeAreaView>
     </ScrollView>
@@ -117,9 +123,11 @@ const AddMedicineForm = () => {
 const styles = StyleSheet.create({
   input: {
     margin: 12,
+    backgroundColor: "white",
   },
   button: {
     margin: 12,
+    borderRadius: 5,
   },
   label: {
     fontWeight: "bold",

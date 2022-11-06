@@ -2,15 +2,41 @@ import React from "react";
 import { SafeAreaView, Text, ScrollView, StyleSheet } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { useState } from "react";
+import axios from "axios";
 
-const UpdateMedicineForm = () => {
+const UpdateMedicineForm = ({ route, navigation }) => {
+  const medicine = route.params.params.medicine;
   const [validated, setvalidated] = useState(false);
-  const [bname, setBrandName] = useState("");
-  const [mterm, setMedicalTerm] = useState("");
-  const [type, setType] = useState("");
-  const [stock, setStock] = useState("");
-  const [price, setPrice] = useState("");
-  const [dose, setDose] = useState("");
+  const [bname, setBrandName] = useState(medicine.brandName);
+  const [mterm, setMedicalTerm] = useState(medicine.medicalTerm);
+  const [type, setType] = useState(medicine.type);
+  const [stock, setStock] = useState(medicine.qty);
+  const [price, setPrice] = useState(medicine.price);
+  const [dose, setDose] = useState(medicine.dose);
+
+  const checkSubmit = () => {
+    const newMedicine = {
+      brandName: bname,
+      medicalTerm: mterm,
+      price: price,
+      qty: stock,
+      type: type,
+      dose: dose,
+      pharmacyName: "Pharmacy 1",
+    };
+
+    axios
+      .put(
+        `https://doc-n-pills.herokuapp.com/medicine/${medicine._id}`,
+        newMedicine
+      )
+      .then(() => {
+        alert("Medicine Updated Successfully");
+      })
+      .catch((err) => {
+        alert("Error");
+      });
+  };
 
   return (
     <ScrollView style={styles.view}>
@@ -84,14 +110,15 @@ const UpdateMedicineForm = () => {
         />
 
         <Button
-          onPress={() => console.log(bname)}
+          onPress={() => {
+            checkSubmit(), navigation.navigate("DocNPills");
+          }}
           mode="contained"
           buttonColor="#1e90ff"
           style={styles.button}
         >
           SAVE CHANGES
         </Button>
-
       </SafeAreaView>
     </ScrollView>
   );
@@ -100,9 +127,11 @@ const UpdateMedicineForm = () => {
 const styles = StyleSheet.create({
   input: {
     margin: 12,
+    backgroundColor: "white",
   },
   button: {
     margin: 12,
+    borderRadius: 5,
   },
   label: {
     fontWeight: "bold",
