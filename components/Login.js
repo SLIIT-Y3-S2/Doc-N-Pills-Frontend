@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TouchableOpacity, StyleSheet, View, } from "react-native";
+import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "./Assets/Background";
 import Logo from "./Assets/Logo";
@@ -8,15 +8,49 @@ import Button from "./Assets/Button";
 import TextInput from "./Assets/TextInput";
 import BackButton from "./Assets/BackButton";
 import { theme } from "./core/theme";
+import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Login({navigation}) {
-  const [email, setEmail] = useState({ value: "", error: "" });
-  const [password, setPassword] = useState({ value: "", error: "" });
 
-    const onLoginPressed = () => {
-        console.log(email, password)
-        navigation.replace("Easy Going");
-  };
+//const API_URL = "https://doc-n-pills.herokuapp.com/";
+
+export default function Login({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const loginNavi = async () => {
+    const loginUser = { email, password };
+    console.log(loginUser);
+    await axios.post('https://doc-n-pills.herokuapp.com/users/login', loginUser)
+    //console.log("loginUser")
+     .then((data) => {
+       console.log(data.data.user.email);
+       if (data.data.user.email == 'Invalid') {
+         Alert.alert(
+           "Login Error",
+           "Invalid Credeintials "
+         )
+       } else {
+         AsyncStorage.setItem('id',data.data.user.email)
+         if (data.data.user.type == 'Pharmacy Agent') {
+           navigation.push('SysAdmin')
+         } else {
+           navigation.push('Register')
+         }
+           
+         }  
+       
+     }).catch((err) => {
+       console.log(err)
+   })
+     
+   
+
+       //navigation.push('Home')
+   console.log("email",email)
+   console.log("password",password)
+   }
+
 
   return (
     <Background>
@@ -26,8 +60,8 @@ export default function Login({navigation}) {
       <TextInput
         label="Email"
         returnKeyType="next"
-        value={email.value}
-        onChangeText={(text) => setEmail({ value: text, error: "" })}
+        value={email}
+        onChangeText={(text) => setEmail(text)}
         error={!!email.error}
         errorText={email.error}
         autoCapitalize="none"
@@ -38,11 +72,11 @@ export default function Login({navigation}) {
       <TextInput
         label="Password"
         returnKeyType="done"
-        value={password.value}
-        onChangeText={(text) => setPassword({ value: text, error: "" })}
+        value={password}
+        onChangeText={(text) => setPassword(text)}
         error={!!password.error}
         errorText={password.error}
-        secureTextEntry
+        secureTextEntry = {true}
       />
       <View style={styles.forgotPassword}>
         <TouchableOpacity
@@ -51,7 +85,7 @@ export default function Login({navigation}) {
           <Text style={styles.forgot}>Forgot your password?</Text>
         </TouchableOpacity>
       </View>
-      <Button mode="contained" onPress={onLoginPressed}>
+      <Button mode="contained" onPress={loginNavi}>
         Login
       </Button>
       <View style={styles.row}>
