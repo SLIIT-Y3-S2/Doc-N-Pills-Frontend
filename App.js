@@ -3,7 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import React from 'react';
-import PharmacyBottomNavBar from './components/PharmacyBottomNavBar';
+// import PharmacyBottomNavBar from './components/PharmacyBottomNavBar';
+import ChannelingCenterBottomNavBar from './components/ChannelingCenterBottomNavBar';
 
 const Stack = createStackNavigator();
 
@@ -20,7 +21,8 @@ export default function App() {
             options={{ headerShown: false }}
           />
         </Stack.Navigator> */}
-        <PharmacyBottomNavBar />
+        {/* <PharmacyBottomNavBar /> */}
+        <ChannelingCenterBottomNavBar />
 
       </NavigationContainer>
   );
