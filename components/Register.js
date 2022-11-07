@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { SafeAreaView, View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "./Assets/Background";
 import Logo from "./Assets/Logo";
@@ -87,6 +87,7 @@ export default function Register({ navigation }) {
 
   return (
     <ScrollView>
+      <SafeAreaView style={styles.form}>
     <Background>
       <BackButton goBack={navigation.goBack} />
       <Logo />
@@ -162,8 +163,8 @@ export default function Register({ navigation }) {
       </Text>
       <Button
         mode="contained"
+        style={{ backgroundColor: "#1e90ff" , marginTop: 24 }}
         onPress={onSignUpPressed}
-        style={{ marginTop: 24 }}
       >
         Sign Up
       </Button>
@@ -175,6 +176,7 @@ export default function Register({ navigation }) {
         </TouchableOpacity>
       </View>
     </Background>
+    </SafeAreaView>
     </ScrollView>
   );
 }
@@ -187,5 +189,8 @@ const styles = StyleSheet.create({
   link: {
     fontWeight: "bold",
     color: theme.colors.primary,
+  },
+  form: {
+    padding: 5,
   },
 });

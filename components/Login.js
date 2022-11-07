@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TouchableOpacity, StyleSheet, View } from "react-native";
+import { TouchableOpacity, StyleSheet, View, Alert } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "./Assets/Background";
 import Logo from "./Assets/Logo";
@@ -19,28 +19,35 @@ export default function Login({ navigation }) {
   const [password, setPassword] = useState('');
 
   const loginNavi = async () => {
+    if(email.length == 0 || password.length == 0){
+      Alert.alert("Please fill all the fields");
+    } else {
     const loginUser = { email, password };
     console.log(loginUser);
     await axios.post('https://doc-n-pills.herokuapp.com/users/login', loginUser)
     //console.log("loginUser")
      .then((data) => {
-       console.log(data.data.user.email);
+       console.log("jjj" ,data.data.user);
        if (data.data.user.email == 'Invalid') {
          Alert.alert(
            "Login Error",
            "Invalid Credeintials "
          )
        } else {
-         AsyncStorage.setItem('id',data.data.user.email)
+         AsyncStorage.setItem('id',data.data.user)
          if (data.data.user.type == 'Pharmacy Agent') {
            navigation.push('SysAdmin')
-         } else {
+         } else if (data.data.user.type == 'Channeling Center Agent') {
            navigation.push('Register')
+         } else if (data.data.user.type == 'Patient') {
+           navigation.push('PatientNavBar')
+         }  else if (data.data.user.type == 'System Admin') {
+            navigation.push('SysAdmin')
+         } else {
+          Alert.alert(" You have to signup first ")
          }
-           
-         }  
        
-     }).catch((err) => {
+     }}).catch((err) => {
        console.log(err)
    })
      
@@ -49,7 +56,7 @@ export default function Login({ navigation }) {
        //navigation.push('Home')
    console.log("email",email)
    console.log("password",password)
-   }
+    }}
 
 
   return (
@@ -85,7 +92,8 @@ export default function Login({ navigation }) {
           <Text style={styles.forgot}>Forgot your password?</Text>
         </TouchableOpacity>
       </View>
-      <Button mode="contained" onPress={loginNavi}>
+      <Button mode="contained"
+        style={{ backgroundColor: "#1e90ff" }} onPress={loginNavi}>
         Login
       </Button>
       <View style={styles.row}>

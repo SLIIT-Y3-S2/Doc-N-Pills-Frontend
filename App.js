@@ -22,15 +22,11 @@ export default function App() {
     <>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Welcome Admin" component={AdminWelcome} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="SysAdmin" component={SysAdmin} />
-          {/* <Stack.Screen
-            name="Easy Going"
-            component={BottomNavBar}
-            options={{ headerShown: false }}
-          /> */}
+          <Stack.Screen name="Welcome Admin" component={AdminWelcome} options={{ headerShown: false }} />
+          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
+          <Stack.Screen name="SysAdmin" component={SysAdmin} options={{ headerShown: false }} />
+         
     
         {/* <Stack.Screen
           name="DocNPills"

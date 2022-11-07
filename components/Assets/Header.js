@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontFamily: 'serif',
-    color: theme.colors.primary,
+    color: "#1e90ff",
     fontWeight: 'bold',
     paddingVertical: 12,
   },
