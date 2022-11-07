@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import Home from "./Home";
+import PharmacyHome from "./PharmacyHome";
 import Medicines from "./Medicines";
 import PharmacyProfile from "./PharmacyProfile";
 import AboutUs from "./AboutUs";
@@ -46,7 +46,7 @@ const PharmacyBottomNavBar = () => {
         style: { padding: 10, height: 70 },
       }}
     >
-      <Tab.Screen name={home} component={Home} />
+      <Tab.Screen name={home} component={PharmacyHome} />
       <Tab.Screen name={medicines} component={Medicines} />
       <Tab.Screen name={about} component={AboutUs} />
       <Tab.Screen name={profile} component={PharmacyProfile} />
