@@ -27,7 +27,7 @@ const PharmacyBottomNavBar = () => {
           if (rn === home) {
             iconName = focused ? "home" : "home-outline";
           } else if (rn === medicines) {
-            iconName = focused ? "bandage" : "bandage-outline";
+            iconName = focused ? "medkit" : "medkit-outline";
           } else if (rn === about) {
             iconName = focused
               ? "information-circle"
