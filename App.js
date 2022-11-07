@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import Login from './components/Login';
 import Register from './components/Register';
-import SysAdmin from './components/SysAdmin';
 import AdminWelcome from './components/AdminWelcome';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -13,6 +12,8 @@ import AddMedicineForm from "./components/AddMedicineForm";
 import UpdateMedicineForm from "./components/UpdateMedicineForm";
 import PatientBottomNavBar from "./components/PatientBottomNavBar";
 import PatientRegisterForm from "./components/PatientRegisterForm";
+import AdminBottomNavBar from './components/AdminBottomNavBar';
+import ChannelingCentersView from './components/ChannelingCentersView';
 
 const Stack = createStackNavigator();
 
@@ -25,7 +26,7 @@ export default function App() {
           <Stack.Screen name="Welcome Admin" component={AdminWelcome} options={{ headerShown: false }} />
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={Register} options={{ headerShown: false }}/>
-          <Stack.Screen name="SysAdmin" component={SysAdmin} options={{ headerShown: false }} />
+          <Stack.Screen name="View Channeling Centers" component={ChannelingCentersView} options={{ headerShown: false }} />
          
     
          <Stack.Screen
@@ -41,6 +42,11 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="User Register" component={PatientRegisterForm} />
+        <Stack.Screen
+          name="AdminNavBar"
+          component={AdminBottomNavBar}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
     </>

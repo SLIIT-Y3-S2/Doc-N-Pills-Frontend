@@ -34,15 +34,15 @@ export default function Login({ navigation }) {
            "Invalid Credeintials "
          )
        } else {
-         AsyncStorage.setItem('id',data.data.user)
+         AsyncStorage.setItem('id', JSON.stringify(data.data.user))
          if (data.data.user.type == 'Pharmacy Agent') {
-           navigation.push('SysAdmin')
+           navigation.push('Register')
          } else if (data.data.user.type == 'Channeling Center Agent') {
            navigation.push('Register')
          } else if (data.data.user.type == 'Patient') {
            navigation.push('PatientNavBar')
          }  else if (data.data.user.type == 'System Admin') {
-            navigation.push('SysAdmin')
+            navigation.push('AdminNavBar')
          } else {
           Alert.alert(" You have to signup first ")
          }
