@@ -3,13 +3,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import React from 'react';
-// import PharmacyBottomNavBar from './components/PharmacyBottomNavBar';
 import ChannelingCenterBottomNavBar from './components/ChannelingCenterBottomNavBar';
-import PharmacyBottomNavBar from "./components/PharmacyBottomNavBar";
-import AddMedicineForm from "./components/AddMedicineForm";
-import UpdateMedicineForm from "./components/UpdateMedicineForm";
-import PatientBottomNavBar from "./components/PatientBottomNavBar";
-import PatientRegisterForm from "./components/PatientRegisterForm";
+import AddDoctorForm from "./components/AddDoctorForm";
+import UpdateDoctorForm from "./components/UpdateDoctorForm";
 
 const Stack = createStackNavigator();
 

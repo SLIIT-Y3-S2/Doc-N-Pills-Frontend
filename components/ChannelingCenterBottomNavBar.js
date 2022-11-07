@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
-import Home from './Home';
+import ChannelingCenterHome from './ChannelingCenterHome';
 import Doctors from './Doctors';
 import ChannelingCenterProfile from './ChannelingCenterProfile';
 import AboutUs from './AboutUs';
@@ -19,7 +19,6 @@ const Tab = createBottomTabNavigator();
 
 const BottomNavBar = () => {
   return (
-    <NavigationContainer independent="true">
       <Tab.Navigator
         initialRouteName={home}
         screenOptions={({ route }) => ({
@@ -51,13 +50,12 @@ const BottomNavBar = () => {
           style: { padding: 10, height: 70}
         }}>
 
-        <Tab.Screen name={home} component={Home} />
+        <Tab.Screen name={home} component={ChannelingCenterHome} />
         <Tab.Screen name={doctors} component={Doctors} />
         <Tab.Screen name={about} component={AboutUs} />
         <Tab.Screen name={profile} component={ChannelingCenterProfile} />
 
       </Tab.Navigator>
-    </NavigationContainer>
   );
 }
 
