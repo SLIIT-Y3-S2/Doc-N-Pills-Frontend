@@ -28,14 +28,14 @@ export default function App() {
           <Stack.Screen name="SysAdmin" component={SysAdmin} options={{ headerShown: false }} />
          
     
-        {/* <Stack.Screen
+         <Stack.Screen
           name="DocNPills"
           component={PharmacyBottomNavBar}
           options={{ headerShown: false }}
         />
         <Stack.Screen name="Add Medicine" component={AddMedicineForm} />
-        <Stack.Screen name="Update Medicine" component={UpdateMedicineForm} /> */}
-        <Stack.Screen
+        <Stack.Screen name="Update Medicine" component={UpdateMedicineForm} />
+         <Stack.Screen
           name="PatientNavBar"
           component={PatientBottomNavBar}
           options={{ headerShown: false }}
