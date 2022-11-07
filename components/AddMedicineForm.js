@@ -4,6 +4,7 @@ import { TextInput, Button } from "react-native-paper";
 import { useState } from "react";
 import axios from "axios";
 
+
 const AddMedicineForm = ({ navigation }) => {
   const [validated, setvalidated] = useState(false);
   const [bname, setBrandName] = useState(null);
@@ -12,6 +13,7 @@ const AddMedicineForm = ({ navigation }) => {
   const [stock, setStock] = useState(null);
   const [price, setPrice] = useState(null);
   const [dose, setDose] = useState(null);
+
 
   const checkSubmit = async () => {
     const newMedicine = {
