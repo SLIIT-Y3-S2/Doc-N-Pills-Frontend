@@ -1,14 +1,14 @@
-import * as React from 'react'
+import * as React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import PatientDashboard from './PatientDashBoard';
-import SearchDoctor from './SearchDoctor';
-import SearchMedicine from './SearchMedicine';
-import PatientProfile from './PatientProfile';
-import AboutUs from './AboutUs';
+import PatientDashboard from "./PatientDashBoard";
+import SearchDoctor from "./SearchDoctor";
+import SearchMedicine from "./SearchMedicine";
+import PatientProfile from "./PatientProfile";
+import AboutUs from "./AboutUs";
 
-const dashboard = "Dashboard";
+const home = "Home";
 const searchDoctor = "Search Doctor";
 const searchMedicine = "Search Medicine";
 const profile = "Profile";
@@ -19,13 +19,13 @@ const Tab = createBottomTabNavigator();
 const PatientBottomNavBar = () => {
   return (
     <Tab.Navigator
-      initialRouteName={dashboard}
+      initialRouteName={home}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           let routerName = route.name;
 
-          if (routerName === dashboard) {
+          if (routerName === home) {
             iconName = focused ? "home" : "home-outline";
           } else if (routerName === searchMedicine) {
             iconName = focused ? "medkit" : "medkit-outline";
@@ -49,13 +49,29 @@ const PatientBottomNavBar = () => {
         style: { padding: 10, height: 70 },
       }}
     >
-      <Tab.Screen name={searchDoctor} component={SearchDoctor} />
-      <Tab.Screen name={searchMedicine} component={SearchMedicine} />
-      <Tab.Screen name={dashboard} component={PatientDashboard} />
+      <Tab.Screen
+        name={searchDoctor}
+        component={SearchDoctor}
+        options={{ headerTitleAlign: "center" }}
+      />
+      <Tab.Screen
+        name={searchMedicine}
+        component={SearchMedicine}
+        options={{ headerTitleAlign: "center" }}
+      />
+      <Tab.Screen
+        name={home}
+        component={PatientDashboard}
+        options={{
+          headerShown: true,
+          headerTitle: "Doc & Pills",
+          headerTitleAlign: "center",
+        }}
+      />
       <Tab.Screen name={about} component={AboutUs} />
       <Tab.Screen name={profile} component={PatientProfile} />
     </Tab.Navigator>
   );
-}
+};
 
-export default PatientBottomNavBar
+export default PatientBottomNavBar;
