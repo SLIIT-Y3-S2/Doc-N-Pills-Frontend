@@ -1,9 +1,14 @@
 import React from 'react'
-import { Text } from 'react-native'
+import { View,Image,Text } from 'react-native'
 
 const ChannelingCenterHome = () => {
   return (
-   <Text>ChannelingCenterHome</Text>
+   <View>
+    <Image
+     source={require("../assets/logo.png")}
+     style={{ width: "100%", height: 360 }}
+     />
+   </View>
   );
 }
 

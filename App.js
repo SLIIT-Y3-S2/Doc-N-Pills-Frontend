@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import React from 'react';
 import ChannelingCenterBottomNavBar from './components/ChannelingCenterBottomNavBar';
+import ChannelingCenterHome from './components/ChannelingCenterHome';
 import AddDoctorForm from "./components/AddDoctorForm";
 import UpdateDoctorForm from "./components/UpdateDoctorForm";
 
@@ -19,6 +20,7 @@ export default function App() {
           component={ChannelingCenterBottomNavBar}
           options={{ headerShown: false }}
         />
+        <Stack.Screen name="Home" component={ChannelingCenterHome} />
         <Stack.Screen name="Add Doctor" component={AddDoctorForm} />
         <Stack.Screen name="Update Doctor" component={UpdateDoctorForm} />
      
