@@ -1,9 +1,42 @@
-import React from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, {useEffect} from "react";
 import { View, Image, ScrollView } from "react-native";
 import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const PharmacyProfile = () => {
+  const [userdetails, setUserdetails] = React.useState(null);
+  const [name, setName] = React.useState(null);
+  const [id, setId] = React.useState(null);
+  const [contact, setContact] = React.useState(null);
+  const [email, setEmail] = React.useState(null);
+  const [openHours, setOpenHours] = React.useState(null);
+  const [location, setLocation] = React.useState(null);  
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        AsyncStorage.getItem('id')
+        .then((data) => {
+          console.log("data", data);
+          let user = JSON.parse(data);
+          setName(user.name)
+          setId(user.id)
+          setContact(user.telephone)
+          setEmail(user.email)
+          setOpenHours(user.openHours)
+          setLocation(user.location)
+          //console.log("userdetails",userdetails)
+          //console.log("user",userdetails.name)
+        })
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUser();
+  }, []);
+  // console.log("userdetails",userdetails.name)
+
   return (
     <View>
       <Image
@@ -14,7 +47,7 @@ const PharmacyProfile = () => {
       <Card>
         <Card.Content>
           <Title style={{ textAlign: "center", fontWeight: "bold" }}>
-            Pharmacy Name
+            {name}
           </Title>
           <Button 
             mode="contained" 
@@ -33,7 +66,7 @@ const PharmacyProfile = () => {
               size={20}
               color="#1e90ff"
             />
-            {"    "}Registration No.
+            {"    "}{id}
           </Paragraph>
         </Card.Content>
       </Card>
@@ -42,7 +75,7 @@ const PharmacyProfile = () => {
         <Card.Content>
           <Paragraph>
             <Ionicons name="call-outline" size={20} color="#1e90ff" />
-            {"    "}Contact No.
+            {"    "}{contact}
           </Paragraph>
         </Card.Content>
       </Card>
@@ -51,7 +84,7 @@ const PharmacyProfile = () => {
         <Card.Content>
           <Paragraph>
             <Ionicons name="mail-outline" size={20} color="#1e90ff" />
-            {"    "}Email
+            {"    "}{email}
           </Paragraph>
         </Card.Content>
       </Card>
@@ -60,7 +93,7 @@ const PharmacyProfile = () => {
         <Card.Content>
           <Paragraph>
             <Ionicons name="alarm-outline" size={20} color="#1e90ff" />
-            {"    "}Opening Hours
+            {"    "}{openHours}
           </Paragraph>
         </Card.Content>
       </Card>
@@ -69,7 +102,7 @@ const PharmacyProfile = () => {
         <Card.Content>
           <Paragraph>
             <Ionicons name="location-outline" size={20} color="#1e90ff" />
-            {"    "}Location
+            {"    "}{location}
           </Paragraph>
         </Card.Content>
       </Card>
