@@ -16,6 +16,19 @@ export default function App() {
     <NavigationContainer>
         
       <Stack.Navigator>
+        {/* <Stack.Screen
+          name="DocNPills"
+          component={PharmacyBottomNavBar}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Add Medicine" component={AddMedicineForm} />
+        <Stack.Screen name="Update Medicine" component={UpdateMedicineForm} /> */}
+        <Stack.Screen
+          name="PatientNavBar"
+          component={PatientBottomNavBar}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Register" component={PatientRegisterForm} />
         <Stack.Screen
           name="ChCenterNavbar"
           component={ChannelingCenterBottomNavBar}
