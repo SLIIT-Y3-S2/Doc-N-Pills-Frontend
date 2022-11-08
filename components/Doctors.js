@@ -16,82 +16,81 @@ import { useEffect } from "react";
 import axios from "axios";
 import { ActivityIndicator } from 'react-native-paper';
 
-const Medicines = ({ navigation }) => {
-  const [searchQuery, setSearchQuery] = React.useState('');
+const Doctors = ({ navigation }) => {
+  const [searchQuery, setSearchQuery] = React.useState(null);
+  const onChangeSearch = (query) => setSearchQuery(query);
 
-  const [medicines, setMedicine] = React.useState([]);
+  const [doctors, setDoctor] = React.useState([]);
   const [deletemed, setDeleteMed] = React.useState(null);
-
   const [loading, setLoading] = React.useState(false);
 
   const [visible, setVisible] = React.useState(false);
-
   const showDialog = () => {
     setVisible(true);
   };
   const hideDialog = () => setVisible(false);
 
   useEffect(() => {
-    const getMedicines = () => {
+    const getDoctors = () => {
       setLoading(true);
       axios
-        .get("https://doc-n-pills.herokuapp.com/medicine")
+        .get("https://doc-n-pills.herokuapp.com/doctor")
         .then((res) => {
-            setMedicine(res.data);
-            setLoading(false);
+          setDoctor(res.data);
+          setLoading(false);
         })
         .catch((err) => {
           alert(err.msg);
         });
     };
-    getMedicines();
-    
-  },[searchQuery]);
+    getDoctors();
+  },[]);
 
-  const deleteMedicine = () => {
+  const deleteDoctor = () => {
     axios
-      .delete(`https://doc-n-pills.herokuapp.com/medicine/${deletemed}`)
+      .delete(`https://doc-n-pills.herokuapp.com/doctor/${deletemed}`)
       .then(() => {
-        alert("Medicine Deleted Successfully");
+        alert("Doctor Deleted Successfully");
       })
       .catch((err) => {
         alert("Not Successful");
       });
   };
 
-  const filterContent = (medicines, searchTerm) => {
-    const result = medicines.filter(
-      (medicine) =>
-        medicine.brandName.toLowerCase().includes(searchTerm) ||
-        medicine.medicalTerm.toLowerCase().includes(searchTerm)
+  // const filterContent = (Doctors, searchQuery) => {
+  //   const result = Doctors.filter(
+  //     (medicine) =>
+  //       medicine.brandName.toLowerCase().includes(searchQuery) ||
+  //       medicine.medicalTerm.toLowerCase().includes(searchQuery)
 
-    );
-    setMedicine(result);
-  };
+  //   );
+  //   setMedicine(result);
+  // };
 
-  const handleTextSearch = (searchTerm) => {
-    setSearchQuery(searchTerm);
-    axios.get("https://doc-n-pills.herokuapp.com/medicine").then((res) => {
-      if (res.data) {
-        filterContent(res.data, searchTerm);
-      }
-    });
-  };
+  // const handleTextSearch = () => {
+  //   const searchQuery = e.currentTarget.value;
+  //   console.log(searchQuery);
+  //   axios.get("https://doc-n-pills.herokuapp.com/medicine").then((res) => {
+  //     if (res.data) {
+  //       filterContent(res.data, searchQuery);
+  //     }
+  //   });
+  // };
 
   return (
     <>
       <Searchbar
         placeholder="Search"
-        onChangeText={(searchTerm) => {
-          setSearchQuery(searchTerm);
+        onChangeText={() => {
+          onChangeSearch;
         }}
         value={searchQuery}
       />
       {loading ? (<ActivityIndicator animating={true} size='large' color={'#1e90ff'} style={{marginTop:'50%'}} />):(
       <ScrollView>
-        {medicines.map((medicine) => (
+        {doctors.map((doctor) => (
           <Card
-            key={medicine._id}
+            key={doctor._id}
             style={{
               backgroundColor: "#87cefa",
               margin: 10,
@@ -100,13 +99,14 @@ const Medicines = ({ navigation }) => {
             }}
           >
             <Card.Content>
-              <Title style={{ fontWeight: "bold" }}>{medicine.brandName}</Title>
-              <Paragraph>{medicine.medicalTerm}</Paragraph>
+              <Title style={{ fontWeight: "bold" }}>{doctor.name}</Title>
+              <Paragraph>{doctor.specialization}</Paragraph>
               <Paragraph>
-                Rs. {medicine.price} | {medicine.dose} | {medicine.type}
+                 {doctor.availableDate} | {doctor.availableTime} 
               </Paragraph>
+              <Paragraph>Rs. {doctor.channelingFee}</Paragraph>
               <Paragraph style={{ fontWeight: "bold" }}>
-                Available Stock :- {medicine.qty}
+                No. of Patients per day :- {doctor.noofPatients}
               </Paragraph>
             </Card.Content>
             <Card.Actions>
@@ -116,8 +116,8 @@ const Medicines = ({ navigation }) => {
                 size="small"
                 variant="surface"
                 onPress={() => {
-                  navigation.navigate("Update Medicine", {
-                    params: { medicine },
+                  navigation.navigate("Update Doctor", {
+                    params: { doctor },
                   });
                 }}
               />
@@ -127,7 +127,7 @@ const Medicines = ({ navigation }) => {
                 size="small"
                 variant="surface"
                 onPress={() => {
-                  showDialog(), setDeleteMed(medicine._id);
+                  showDialog(), setDeleteMed(doctor._id);
                 }}
               />
             </Card.Actions>
@@ -140,10 +140,10 @@ const Medicines = ({ navigation }) => {
         <View>
           <Portal>
             <Dialog visible={visible} onDismiss={hideDialog}>
-              <Dialog.Title>Delete Medicine</Dialog.Title>
+              <Dialog.Title>Delete Doctor</Dialog.Title>
               <Dialog.Content>
                 <Paragraph>
-                  Are you sure want to delete this medicine ?
+                  Are you sure want to delete this doctor ?
                 </Paragraph>
               </Dialog.Content>
               <Dialog.Actions>
@@ -153,7 +153,7 @@ const Medicines = ({ navigation }) => {
                 </Button>
                 <Button
                   onPress={() => {
-                    deleteMedicine(), hideDialog();
+                    deleteDoctor(), hideDialog();
                   }}
                   textColor={"red"}
                 >
@@ -172,11 +172,11 @@ const Medicines = ({ navigation }) => {
           size={40}
           backgroundColor={"#1e90ff"}
           borderRadius={10}
-          onPress={() => navigation.navigate("Add Medicine")}
+          onPress={() => navigation.navigate("Add Doctor")}
         />
       </View>
     </>
   );
 };
 
-export default Medicines;
+export default Doctors;

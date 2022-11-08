@@ -4,32 +4,30 @@ import { TextInput, Button } from "react-native-paper";
 import { useState } from "react";
 import axios from "axios";
 
-
-const AddMedicineForm = ({ navigation }) => {
+const AddDoctorForm = ({ navigation }) => {
   const [validated, setvalidated] = useState(false);
-  const [bname, setBrandName] = useState(null);
-  const [mterm, setMedicalTerm] = useState(null);
-  const [type, setType] = useState(null);
-  const [stock, setStock] = useState(null);
-  const [price, setPrice] = useState(null);
-  const [dose, setDose] = useState(null);
-
+  const [dname, setDoctorName] = useState(null);
+  const [splze, setSpecialization] = useState(null);
+  const [adate, setDate] = useState(null);
+  const [atime, setTime] = useState(null);
+  const [fee, setFee] = useState(null);
+  const [limit, setLimit] = useState(null);
 
   const checkSubmit = async () => {
-    const newMedicine = {
-      brandName: bname,
-      medicalTerm: mterm,
-      price: price,
-      qty: stock,
-      type: type,
-      dose: dose,
-      pharmacyName: "Pharmacy 1",
+    const newDoctor = {
+      name: dname,
+      specialization: splze,
+      availableDate: adate,
+      availableTime: atime,
+      channelingFee: fee,
+      noofPatients: limit,
+      channelingCenterName: "Channeling Center 1",
     };
 
     await axios
-      .post("https://doc-n-pills.herokuapp.com/medicine", newMedicine)
+      .post("https://doc-n-pills.herokuapp.com/doctor", newDoctor)
       .then(() => {
-        alert("Medicine Added Successfully");
+        alert("Doctor Added Successfully");
       })
       .catch((err) => {
         alert("Error");
@@ -40,68 +38,68 @@ const AddMedicineForm = ({ navigation }) => {
     <ScrollView style={styles.view}>
       <SafeAreaView style={styles.form}>
         <TextInput
-          label="Brand Name"
-          placeholder="Enter Brand Name"
-          value={bname}
+          label="Doctor Name"
+          placeholder="Enter Doctor Name"
+          value={dname}
           style={styles.input}
-          onChangeText={(text) => setBrandName(text)}
+          onChangeText={(text) => setDoctorName(text)}
           mode="outlined"
           outlineColor="black"
           activeOutlineColor="#1e90ff"
         />
 
         <TextInput
-          label="Medical Term"
-          placeholder="Enter Medical Term"
-          value={mterm}
+          label="Specialization"
+          placeholder="Enter Doctor's Specialization"
+          value={splze}
           style={styles.input}
-          onChangeText={(text) => setMedicalTerm(text)}
+          onChangeText={(text) => setSpecialization(text)}
           mode="outlined"
           outlineColor="black"
           activeOutlineColor="#1e90ff"
         />
 
         <TextInput
-          label="Type"
-          placeholder="Enter Type"
-          value={type}
+          label="AvailableDate"
+          placeholder="Enter Available Date"
+          value={adate}
           style={styles.input}
-          onChangeText={(text) => setType(text)}
+          onChangeText={(text) => setDate(text)}
           mode="outlined"
           outlineColor="black"
           activeOutlineColor="#1e90ff"
         />
 
         <TextInput
-          label="Stock"
-          placeholder="Enter Stock"
-          value={stock}
+          label="AvailableTime"
+          placeholder="Enter Available Time"
+          value={atime}
           style={styles.input}
-          keyboardType="numeric"
-          onChangeText={(text) => setStock(text)}
+          onChangeText={(text) => setTime(text)}
           mode="outlined"
           outlineColor="black"
           activeOutlineColor="#1e90ff"
         />
 
         <TextInput
-          label="Price"
+          label="ChannelingFee"
           placeholder="LKR 0.00"
-          value={price}
+          value={fee}
           style={styles.input}
           keyboardType="numeric"
-          onChangeText={(text) => setPrice(text)}
+          onChangeText={(text) => setFee(text)}
           mode="outlined"
           outlineColor="black"
           activeOutlineColor="#1e90ff"
         />
 
         <TextInput
-          label="Dose"
-          placeholder="Enter Dose"
-          value={dose}
+          label="NoofPatients"
+          placeholder="Enter Daily patients checking limit"
+          value={limit}
           style={styles.input}
-          onChangeText={(text) => setDose(text)}
+          keyboardType="numeric"
+          onChangeText={(text) => setLimit(text)}
           mode="outlined"
           outlineColor="black"
           activeOutlineColor="#1e90ff"
@@ -112,7 +110,7 @@ const AddMedicineForm = ({ navigation }) => {
           buttonColor="#1e90ff"
           style={styles.button}
           onPress={() => {
-            checkSubmit(), navigation.navigate("DocNPills");
+            checkSubmit(), navigation.navigate("ChCenterNavbar");
           }}
         >
           ADD
@@ -144,4 +142,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddMedicineForm;
+export default AddDoctorForm;
