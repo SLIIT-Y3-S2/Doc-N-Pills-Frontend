@@ -25,17 +25,29 @@ const UpdateMedicineForm = ({ route, navigation }) => {
       pharmacyName: "Pharmacy 1",
     };
 
-    axios
-      .put(
-        `https://doc-n-pills.herokuapp.com/medicine/${medicine._id}`,
-        newMedicine
-      )
-      .then(() => {
-        alert("Medicine Updated Successfully");
-      })
-      .catch((err) => {
-        alert("Error");
-      });
+    if (
+      bname != null &&
+      mterm != null &&
+      type != null &&
+      stock != null &&
+      price != null &&
+      dose != null &&
+      String.valueOf(stock) > 0 )
+    {
+      axios
+        .put(
+          `https://doc-n-pills.herokuapp.com/medicine/${medicine._id}`,
+          newMedicine
+        )
+        .then(() => {
+          alert("Medicine Updated Successfully");
+        })
+        .catch((err) => {
+          alert("Error");
+        });
+    } else {
+      alert("Please fill all the fields");
+    }
   };
 
   return (
