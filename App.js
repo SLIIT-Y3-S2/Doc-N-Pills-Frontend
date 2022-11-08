@@ -14,6 +14,11 @@ import PatientBottomNavBar from "./components/PatientBottomNavBar";
 import PatientRegisterForm from "./components/PatientRegisterForm";
 import AdminBottomNavBar from './components/AdminBottomNavBar';
 import ChannelingCentersView from './components/ChannelingCentersView';
+import ChannelingCenterBottomNavBar from './components/ChannelingCenterBottomNavBar';
+import ChannelingCenterHome from './components/ChannelingCenterHome';
+import AddDoctorForm from "./components/AddDoctorForm";
+import UpdateDoctorForm from "./components/UpdateDoctorForm";
+import Doctors from './components/Doctors';
 
 const Stack = createStackNavigator();
 
@@ -47,6 +52,16 @@ export default function App() {
           component={AdminBottomNavBar}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="ChCenterNavbar"
+          component={ChannelingCenterBottomNavBar}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="Home" component={ChannelingCenterHome} />
+        <Stack.Screen name="Doctors" component={Doctors} />
+        <Stack.Screen name="Add Doctor" component={AddDoctorForm} />
+        <Stack.Screen name="Update Doctor" component={UpdateDoctorForm} />
+     
       </Stack.Navigator>
     </NavigationContainer>
     </>
