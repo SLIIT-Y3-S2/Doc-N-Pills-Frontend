@@ -2,14 +2,14 @@ import React from "react";
 import { View, Image } from "react-native";
 import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { Linking} from 'react-native'
+import { Linking } from "react-native";
 
 const AboutUs = () => {
   return (
-    <View>
+    <View style={{ backgroundColor: "white" }}>
       <Image
         source={require("../assets/about.jpg")}
-        style={{ width: 360, height: 200 }}
+        style={{ width: '100%', height: 280 }}
       />
 
       <Card>
@@ -17,48 +17,71 @@ const AboutUs = () => {
           <Title style={{ textAlign: "center", fontWeight: "bold" }}>
             Doc N Pills
           </Title>
-          <Paragraph style={{ textAlign: "center" }}>Card content</Paragraph>
+          <Paragraph style={{ textAlign: "center" }}>
+            Find the best doctors in Sri Lanka and the pharmacies that availble
+            the medicines you want without wasting your valuable time and money.
+          </Paragraph>
+          <Paragraph style={{ textAlign: "center" }}>
+            You can contact us at anytime through the below mentioned platforms.
+          </Paragraph>
+          <Paragraph style={{ textAlign: "center", fontWeight: "bold" }}>
+            We are available for you 24x7
+          </Paragraph>
+          <Paragraph style={{ textAlign: "center", fontWeight: "bold" }}>
+            Copyright 2022 © DCRC. All Rights Reserved.
+          </Paragraph>
         </Card.Content>
       </Card>
 
-      <View style={{flexDirection:'row',justifyContent:'space-evenly', marginTop:20}}>
-        <Ionicons 
-          name="logo-facebook" 
-          size={30} 
-          color="blue" 
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          marginTop: 5,
+          padding: 18,
+        }}
+      >
+        <Ionicons
+          name="logo-facebook"
+          size={30}
+          color="blue"
           onPress={() => {
-            Linking.openURL('https://www.facebook.com/')}}
-        />
-        <Ionicons 
-          name="logo-instagram" 
-          size={30} 
-          color="red" 
-          onPress={() => {
-            Linking.openURL('https://www.instagram.com/')}}
-        />
-        <Ionicons 
-          name="logo-twitter" 
-          size={30} 
-          color="blue" 
-          onPress={() => {
-            Linking.openURL('https://twitter.com/?lang=en')}}
+            Linking.openURL("https://www.facebook.com/");
+          }}
         />
         <Ionicons
-           name="logo-whatsapp" 
-           size={30} 
-           color="green" 
-           onPress={() => {
-            Linking.openURL('https://www.whatsapp.com/')}}
+          name="logo-instagram"
+          size={30}
+          color="#8a3ab9"
+          onPress={() => {
+            Linking.openURL("https://www.instagram.com/");
+          }}
         />
         <Ionicons
-           name="mail-outline" 
-           size={30} 
-           color="red" 
-           onPress={() => {
-            Linking.openURL('mailto:chaminduhansana5@gmail.com')}}
+          name="logo-twitter"
+          size={30}
+          color="#00acee"
+          onPress={() => {
+            Linking.openURL("https://twitter.com/?lang=en");
+          }}
+        />
+        <Ionicons
+          name="logo-whatsapp"
+          size={30}
+          color="green"
+          onPress={() => {
+            Linking.openURL("https://www.whatsapp.com/");
+          }}
+        />
+        <Ionicons
+          name="mail-outline"
+          size={30}
+          color="red"
+          onPress={() => {
+            Linking.openURL("mailto:chaminduhansana5@gmail.com");
+          }}
         />
       </View>
-
     </View>
   );
 };

@@ -17,8 +17,7 @@ import axios from "axios";
 import { ActivityIndicator } from 'react-native-paper';
 
 const Medicines = ({ navigation }) => {
-  const [searchQuery, setSearchQuery] = React.useState(null);
-  const onChangeSearch = (query) => setSearchQuery(query);
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   const [medicines, setMedicine] = React.useState([]);
   const [deletemed, setDeleteMed] = React.useState(null);
@@ -38,8 +37,8 @@ const Medicines = ({ navigation }) => {
       axios
         .get("https://doc-n-pills.herokuapp.com/medicine")
         .then((res) => {
-          setMedicine(res.data);
-          setLoading(false);
+            setMedicine(res.data);
+            setLoading(false);
         })
         .catch((err) => {
           alert(err.msg);
@@ -47,7 +46,7 @@ const Medicines = ({ navigation }) => {
     };
     getMedicines();
     
-  },[]);
+  },[searchQuery]);
 
   const deleteMedicine = () => {
     axios
@@ -60,36 +59,35 @@ const Medicines = ({ navigation }) => {
       });
   };
 
-  // const filterContent = (medicines, searchQuery) => {
-  //   const result = medicines.filter(
-  //     (medicine) =>
-  //       medicine.brandName.toLowerCase().includes(searchQuery) ||
-  //       medicine.medicalTerm.toLowerCase().includes(searchQuery)
+  const filterContent = (medicines, searchTerm) => {
+    const result = medicines.filter(
+      (medicine) =>
+        medicine.brandName.toLowerCase().includes(searchTerm) ||
+        medicine.medicalTerm.toLowerCase().includes(searchTerm)
 
-  //   );
-  //   setMedicine(result);
-  // };
+    );
+    setMedicine(result);
+  };
 
-  // const handleTextSearch = () => {
-  //   const searchQuery = e.currentTarget.value;
-  //   console.log(searchQuery);
-  //   axios.get("https://doc-n-pills.herokuapp.com/medicine").then((res) => {
-  //     if (res.data) {
-  //       filterContent(res.data, searchQuery);
-  //     }
-  //   });
-  // };
+  const handleTextSearch = (searchTerm) => {
+    setSearchQuery(searchTerm);
+    axios.get("https://doc-n-pills.herokuapp.com/medicine").then((res) => {
+      if (res.data) {
+        filterContent(res.data, searchTerm);
+      }
+    });
+  };
 
   return (
     <>
       <Searchbar
         placeholder="Search"
-        onChangeText={() => {
-          onChangeSearch;
+        onChangeText={(searchTerm) => {
+          setSearchQuery(searchTerm);
         }}
         value={searchQuery}
       />
-      {loading ? (<ActivityIndicator animating={true} color={'#1e90ff'} style={{marginTop:20}} />):(
+      {loading ? (<ActivityIndicator animating={true} size='large' color={'#1e90ff'} style={{marginTop:'50%'}} />):(
       <ScrollView>
         {medicines.map((medicine) => (
           <Card
