@@ -16,6 +16,12 @@ const ChannelingCenterProfile = () => {
         <Title style={{ textAlign: "center", fontWeight: "bold" }}>
           Channeling Center Name
         </Title>
+        <Button 
+            mode="contained" 
+            style={{backgroundColor:'#87cefa',borderRadius: 10,margin:10}}
+          >
+            Log out
+          </Button>
       </Card.Content>
     </Card>
 

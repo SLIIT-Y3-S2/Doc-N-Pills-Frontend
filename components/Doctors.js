@@ -14,6 +14,7 @@ import {
 } from "react-native-paper";
 import { useEffect } from "react";
 import axios from "axios";
+import { ActivityIndicator } from 'react-native-paper';
 
 const Doctors = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = React.useState(null);
@@ -21,6 +22,7 @@ const Doctors = ({ navigation }) => {
 
   const [doctors, setDoctor] = React.useState([]);
   const [deletemed, setDeleteMed] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
 
   const [visible, setVisible] = React.useState(false);
   const showDialog = () => {
@@ -30,10 +32,12 @@ const Doctors = ({ navigation }) => {
 
   useEffect(() => {
     const getDoctors = () => {
+      setLoading(true);
       axios
         .get("https://doc-n-pills.herokuapp.com/doctor")
         .then((res) => {
           setDoctor(res.data);
+          setLoading(false);
         })
         .catch((err) => {
           alert(err.msg);
@@ -82,6 +86,7 @@ const Doctors = ({ navigation }) => {
         }}
         value={searchQuery}
       />
+      {loading ? (<ActivityIndicator animating={true} size='large' color={'#1e90ff'} style={{marginTop:'50%'}} />):(
       <ScrollView>
         {doctors.map((doctor) => (
           <Card
@@ -129,6 +134,7 @@ const Doctors = ({ navigation }) => {
           </Card>
         ))}
       </ScrollView>
+      )}
 
       <Provider>
         <View>

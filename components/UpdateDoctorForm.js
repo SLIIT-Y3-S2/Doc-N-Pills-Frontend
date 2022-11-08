@@ -111,7 +111,7 @@ const UpdateDoctorForm = ({ route, navigation }) => {
 
         <Button
           onPress={() => {
-            checkSubmit(), navigation.navigate("DocNPills");
+            checkSubmit(), navigation.navigate("ChCenterNavbar");
           }}
           mode="contained"
           buttonColor="#1e90ff"

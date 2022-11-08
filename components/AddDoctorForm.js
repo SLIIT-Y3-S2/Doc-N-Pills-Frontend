@@ -110,7 +110,7 @@ const AddDoctorForm = ({ navigation }) => {
           buttonColor="#1e90ff"
           style={styles.button}
           onPress={() => {
-            checkSubmit(), navigation.navigate("DocNPills");
+            checkSubmit(), navigation.navigate("ChCenterNavbar");
           }}
         >
           ADD
