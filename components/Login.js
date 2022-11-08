@@ -18,6 +18,8 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+
+
   const loginNavi = async () => {
     if(email.length == 0 || password.length == 0){
       Alert.alert("Please fill all the fields");
@@ -27,7 +29,7 @@ export default function Login({ navigation }) {
     await axios.post('https://doc-n-pills.herokuapp.com/users/login', loginUser)
     //console.log("loginUser")
      .then((data) => {
-       console.log("jjj" ,data.data.user);
+       console.log("jjj" ,data.data);
        if (data.data.user.email == 'Invalid') {
          Alert.alert(
            "Login Error",
@@ -35,8 +37,9 @@ export default function Login({ navigation }) {
          )
        } else {
          AsyncStorage.setItem('id', JSON.stringify(data.data.user))
+         AsyncStorage.setItem('token', data.data.token)
          if (data.data.user.type == 'Pharmacy Agent') {
-           navigation.push('Register')
+           navigation.push('DocNPills')
          } else if (data.data.user.type == 'Channeling Center Agent') {
            navigation.push('Register')
          } else if (data.data.user.type == 'Patient') {
