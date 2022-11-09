@@ -5,7 +5,7 @@ export default function Logo() {
   return (
     <Image
       source={require('../../assets/logoNoBG.png')}
-      style={{ width: 250, height: 250, marginTop: -50 }}
+      style={{ width: 250, height: 250, marginTop: 50 }}
     />
   );
 }

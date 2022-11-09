@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SafeAreaView, View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { SafeAreaView, View, StyleSheet, TouchableOpacity, ScrollView, Alert } from "react-native";
 import { Text } from "react-native-paper";
 import Background from "./Assets/Background";
 import Logo from "./Assets/Logo";
@@ -11,21 +11,24 @@ import { theme } from "./core/theme";
 import axios from 'axios'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import RNPickerSelect from "react-native-picker-select";
 
 // const API_URL = "https://doc-n-pills.herokuapp.com/";
 
-export default function Register({ navigation }) {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [telephone, setTelephone] = useState('');
-  const [location, setLocation] = useState('');
-  const [openHours, setOpenHours] = useState('');
+const Register = ({ route, navigation }) => {
+  const [name, setName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [telephone, setTelephone] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [openHours, setOpenHours] = useState(null);
   const [legacyValidation, setLegacyValidation] = useState('');
   const [availabilityStatus, setAvailabilityStatus] = useState('');
   const [type, setType] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
  
+  const refresh = route.params.params.refresh;
+  const setRefresh = route.params.params.setRefresh;
 
   const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState("");
@@ -46,38 +49,36 @@ export default function Register({ navigation }) {
       password: password,
       passwordCheck: passwordCheck,
     };
-    console.log(payload);
-    await axios.post('https://doc-n-pills.herokuapp.com/users/register',payload)
-    .then((data) => {
-      console.log(data);
-    }).catch((err) => {console.log(err.response.data.msg)})
 
-    // fetch(`${API_URL}users/register`, {
-    //   method: "POST",
-    //   body: "email=value1&password=value2",
-    //   headers: {
-    //     Accept: "application/json, text/plain, */*",
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(payload),
-    // })
-    //   .then(async (res) => {
-    //     try {
-    //       const data = await res.text();
-    //       if (data.status !== 200) {
-    //         setIsError(true);
-    //         setMessage(data.message);
-    //       } else {
-    //         setIsError(false);
-    //         setMessage(data.message);
-    //       }
-    //     } catch (err) {
-    //       console.log(err);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    if(
+      name != null &&
+      email != null &&
+      telephone != null &&
+      location != null &&
+      openHours != null &&
+      legacyValidation != null &&
+      availabilityStatus != null &&
+      type != null &&
+      password != null &&
+      passwordCheck != null
+    ){
+
+    await axios.post('https://doc-n-pills.herokuapp.com/users/register',payload)
+    .then(() => {
+      setRefresh(!refresh);
+      Alert.alert("Registration Successfull")
+
+      if(payload.type == 'Pharmacy Agent'){
+        navigation.push('View pharmacy')
+      }else if(payload.type == 'Channeling Center Agent'){
+        navigation.push('View Channeling Centers')
+      }
+    })
+    .catch((err) => {Alert.alert(err.response.data.msg)})
+
+    }else{
+      Alert.alert("Please fill all the fields")
+    }
   };
 
   const getMessage = () => {
@@ -91,7 +92,7 @@ export default function Register({ navigation }) {
     <Background>
       <BackButton goBack={navigation.goBack} />
       <Logo />
-      <Header>Create Account</Header>
+      <Header>Add Agents</Header>
       <TextInput
         label="Name"
         returnKeyType="next"
@@ -132,18 +133,56 @@ export default function Register({ navigation }) {
         value={legacyValidation}
         onChangeText={(text) => setLegacyValidation(text)}
       />
-      <TextInput
+
+      <View
+      style={{
+        margin: 12,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 5,
+      }}>
+      <RNPickerSelect
+        placeholder={{label: 'Availability Status', value: null}}
+        onValueChange={(availabilityStatus) => setAvailabilityStatus(availabilityStatus)}
+        value={availabilityStatus}
+        items={[
+          { label: 'Available', value: 'Available' },
+          { label: 'Not Available', value: 'Not Available' },
+        ]}
+      />
+      </View>
+
+      {/* <TextInput
         label="Availability Status"
         returnKeyType="next"
         value={availabilityStatus}
         onChangeText={(text) => setAvailabilityStatus(text)}
+      /> */}
+      
+      <View
+      style={{
+        margin: 12,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 5,
+      }}>
+      <RNPickerSelect
+        placeholder={{label: 'User Type', value: null}}
+        onValueChange={(type) => setType(type)}
+        value={type}
+        items={[
+          { label: 'Pharmacy Agent', value: 'Pharmacy Agent' },
+          { label: 'Channeling Center Agent', value: 'Channeling Center Agent' },
+        ]}
       />
-      <TextInput
+      </View>
+
+      {/* <TextInput
         label="User Type"
         returnKeyType="next"
         value={type}
         onChangeText={(text) => setType(text)}
-      />
+      /> */}
       <TextInput
         label="Password"
         returnKeyType="done"
@@ -166,15 +205,8 @@ export default function Register({ navigation }) {
         style={{ backgroundColor: "#1e90ff" , marginTop: 24 }}
         onPress={onSignUpPressed}
       >
-        Sign Up
+        Register
       </Button>
-      
-      <View style={styles.row}>
-        <Text>Already have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.replace("Login")}>
-          <Text style={styles.link}>Login</Text>
-        </TouchableOpacity>
-      </View>
     </Background>
     </SafeAreaView>
     </ScrollView>
@@ -194,3 +226,5 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 });
+
+export default Register;

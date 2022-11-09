@@ -19,6 +19,9 @@ import ChannelingCenterHome from './components/ChannelingCenterHome';
 import AddDoctorForm from "./components/AddDoctorForm";
 import UpdateDoctorForm from "./components/UpdateDoctorForm";
 import Doctors from './components/Doctors';
+import PharmaciesView from './components/PharmaciesView';
+import UpdateCenter from './components/UpdateCenter';
+import UpdatePharmacy from './components/UpdatePharmacy';
 
 const Stack = createStackNavigator();
 
@@ -61,6 +64,9 @@ export default function App() {
         <Stack.Screen name="Doctors" component={Doctors} />
         <Stack.Screen name="Add Doctor" component={AddDoctorForm} />
         <Stack.Screen name="Update Doctor" component={UpdateDoctorForm} />
+        <Stack.Screen name="View pharmacy" component={PharmaciesView} options={{ headerShown: false }}/>
+        <Stack.Screen name="Update Center" component={UpdateCenter} />
+        <Stack.Screen name="Update Pharmacy" component={UpdatePharmacy} />
      
       </Stack.Navigator>
     </NavigationContainer>

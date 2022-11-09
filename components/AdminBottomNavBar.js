@@ -1,10 +1,10 @@
 import * as React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import SearchMedicine from "./SearchMedicine";
 import AboutUs from "./AboutUs";
 import AdminDashBoard from "./AdminDashBoard";
 import ChannelingCentersView from "./ChannelingCentersView";
+import PharmaciesView from "./PharmaciesView";
 
 const adDashboard = "AdDashboard";
 const searchChannelingCenter = "Channeling Centers";
@@ -48,6 +48,7 @@ const AdminBottomNavBar = () => {
       <Tab.Screen
         name={adDashboard}
         component={AdminDashBoard}
+        options={{ headerShown: false }}
       />
       <Tab.Screen
         name={searchChannelingCenter}
@@ -55,7 +56,7 @@ const AdminBottomNavBar = () => {
       />
       <Tab.Screen
         name={searchPharmacy}
-        component={SearchMedicine}
+        component={PharmaciesView}
       />
       <Tab.Screen name={about} component={AboutUs} />
     </Tab.Navigator>

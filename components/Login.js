@@ -30,6 +30,7 @@ export default function Login({ navigation }) {
     //console.log("loginUser")
      .then((data) => {
        console.log("jjj" ,data.data);
+       Alert.alert("Login Successfull");
        if (data.data.user.email == 'Invalid') {
          Alert.alert(
            "Login Error",
@@ -52,6 +53,7 @@ export default function Login({ navigation }) {
        
      }}).catch((err) => {
        console.log(err)
+       Alert.alert(err)
    })
      
    
