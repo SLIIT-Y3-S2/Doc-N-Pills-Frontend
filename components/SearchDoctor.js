@@ -71,10 +71,7 @@ const SearchDoctor = () => {
             marginTop: 20,
           }}
         >
-          <Image
-            source={require("../assets/medicine.webp")} //channeling.jpeg
-            style={styles.image}
-          />
+          <Image source={require("../assets/channeling.jpeg")} style={styles.image} />
         </View>
       ) : loading ? (
         <ActivityIndicator
@@ -98,11 +95,15 @@ const SearchDoctor = () => {
                 <Title style={{ fontWeight: "bold" }}>
                   {doctor.channelingCenterName}
                 </Title>
-                <Paragraph>{ doctor.name} - {doctor.specialization}</Paragraph>
+                <Paragraph>
+                  {doctor.name} - {doctor.specialization}
+                </Paragraph>
                 <Paragraph>
                   {doctor.availableDate} | {doctor.availableTime}
                 </Paragraph>
-                <Paragraph>Channeling Fee - Rs. {doctor.channelingFee}</Paragraph>
+                <Paragraph>
+                  Channeling Fee - Rs. {doctor.channelingFee}
+                </Paragraph>
                 <Paragraph style={{ fontWeight: "bold" }}>
                   No. of Patients per day :- {doctor.noofPatients}
                 </Paragraph>

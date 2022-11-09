@@ -15,18 +15,18 @@ const AdminWelcome = ({ navigation }) => {
       <Button
         mode="contained"
         style={{ backgroundColor: "#1e90ff" }}
-        onPress={() => navigation.push("Register")}
+        onPress={() => navigation.push("User Register")}
       >
         Get Started
       </Button>
       <View
-  style={{
-    borderBottomColor: 'black',
-    borderBottomWidth: 3,
-    marginLeft: 5,
-    marginRight: 5
-  }}
-/>
+        style={{
+          borderBottomColor: "black",
+          borderBottomWidth: 3,
+          marginLeft: 5,
+          marginRight: 5,
+        }}
+      />
 
       <View style={styles.row}>
         <Text>Already have an account? </Text>

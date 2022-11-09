@@ -6,7 +6,7 @@ import { Linking } from "react-native";
 
 const AboutUs = () => {
   return (
-    <View style={{ backgroundColor: "white" }}>
+    <View style={{ backgroundColor: "white", height:"100%" }}>
       <Image
         source={require("../assets/about.jpg")}
         style={{ width: '100%', height: 280 }}
@@ -37,8 +37,9 @@ const AboutUs = () => {
         style={{
           flexDirection: "row",
           justifyContent: "space-evenly",
-          marginTop: 5,
+          marginTop:"3%",
           padding: 18,
+          backgroundColor:"whitesmoke"
         }}
       >
         <Ionicons

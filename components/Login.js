@@ -86,7 +86,7 @@ export default function Login({ navigation }) {
         onChangeText={(text) => setPassword(text)}
         error={!!password.error}
         errorText={password.error}
-        secureTextEntry = {true}
+        secureTextEntry={true}
       />
       <View style={styles.forgotPassword}>
         <TouchableOpacity
@@ -95,13 +95,16 @@ export default function Login({ navigation }) {
           <Text style={styles.forgot}>Forgot your password?</Text>
         </TouchableOpacity>
       </View>
-      <Button mode="contained"
-        style={{ backgroundColor: "#1e90ff" }} onPress={loginNavi}>
+      <Button
+        mode="contained"
+        style={{ backgroundColor: "#1e90ff" }}
+        onPress={loginNavi}
+      >
         Login
       </Button>
       <View style={styles.row}>
         <Text>Don’t have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.replace("Register")}>
+        <TouchableOpacity onPress={() => navigation.replace("User Register")}>
           <Text style={styles.link}>Sign up</Text>
         </TouchableOpacity>
       </View>
