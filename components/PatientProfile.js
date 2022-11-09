@@ -1,15 +1,23 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import { View, Image, StyleSheet} from "react-native";
-import { Button, Card, Title, Paragraph } from "react-native-paper";
+import { Button, Card, Title, Paragraph, Provider,Dialog,Portal } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-const PatientProfile = () => {
+const PatientProfile = ({navigation}) => {
   const [id, setId] = useState(null);
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
   const [mobile, setMobile] = useState(null);
   const [address, setAddress] = useState(null);
+  const [visible, setVisible] = React.useState(false);
+
+  const showDialog = () => {
+    setVisible(true);
+  };
+  const hideDialog = () => {
+    setVisible(false);
+  }
 
   const getUser = async () => {
     try {
@@ -30,6 +38,11 @@ const PatientProfile = () => {
   useEffect(() => { 
     getUser();
   });
+
+  const handlelogout = () => {
+    AsyncStorage.removeItem("id");
+    navigation.navigate("Welcome Admin");
+  };
 
   return (
     <View style={{ backgroundColor: "white", height: "100%" }}>
@@ -61,6 +74,7 @@ const PatientProfile = () => {
               borderWidth: 2,
             }}
             textColor="black"
+            onPress={showDialog}
           >
             Log out
           </Button>
@@ -130,6 +144,32 @@ const PatientProfile = () => {
           Delete
         </Button>
       </View>
+      <Provider>
+        <View>
+          <Portal>
+            <Dialog visible={visible} onDismiss={hideDialog}>
+              <Dialog.Title>Log Out</Dialog.Title>
+              <Dialog.Content>
+                <Paragraph>Are you sure want to sign out ?</Paragraph>
+              </Dialog.Content>
+              <Dialog.Actions>
+                <Button onPress={hideDialog} textColor={"#1e90ff"}>
+                  {" "}
+                  Cancel
+                </Button>
+                <Button
+                  onPress={() => {
+                    handlelogout(), hideDialog();
+                  }}
+                  textColor={"red"}
+                >
+                  Log out
+                </Button>
+              </Dialog.Actions>
+            </Dialog>
+          </Portal>
+        </View>
+      </Provider>
     </View>
   );
 };

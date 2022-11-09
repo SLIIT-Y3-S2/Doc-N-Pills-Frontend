@@ -1,14 +1,66 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { SafeAreaView, Text, ScrollView, StyleSheet, View } from "react-native";
-import { TextInput, Button } from "react-native-paper";
+import {
+  SafeAreaView,
+  Text,
+  ScrollView,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Image,
+} from "react-native";
+import { TextInput, Button ,Snackbar} from "react-native-paper";
+import { theme } from "./core/theme";
 
-const PatientRegisterForm = () => {
+const PatientRegisterForm = ({ navigation }) => {
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
   const [mobile, setMobile] = useState(null);
   const [address, setAddress] = useState(null);
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const [visibleSuccess, setVisibleSuccess] = useState(false);
+
+  const onToggleSuccessSnackBar = () => {
+    setVisibleSuccess(!visibleSuccess);
+  }
+
+  const onDismissSuccessSnackBar = () => {
+    setVisibleSuccess(false)
+  };
+
+  const onToggleSnackBar = () => {
+    setVisible(!visible);
+  }
+
+  const onDismissSnackBar = () => {
+    setVisible(false);
+    navigation.navigate("Login");
+  }
+
+  const handleSubmit = async () => {
+    try {
+      const newPatient = {
+        name,
+        email,
+        mobile,
+        address,
+        password,
+        confirmPassword,
+      };
+      const result = await axios.post(
+        "https://doc-n-pills.herokuapp.com/patient",
+        newPatient
+      );
+      onToggleSuccessSnackBar();
+    } catch (err) {
+      console.log(err.response.data.msg);
+      setErrorMsg(err.response.data.msg);
+      onToggleSnackBar();
+    }
+  };
 
   const clearForm = () => {
     setName(null);
@@ -19,7 +71,16 @@ const PatientRegisterForm = () => {
     setConfirmPassword(null);
   };
   return (
-    <ScrollView style={styles.view}>
+    <View style={{ height: "100%", backgroundColor: "white" }}>
+      <Image
+        source={require("../assets/logoNoBG.png")}
+        style={{
+          height: 120,
+          width: "40%",
+          alignSelf: "center",
+          marginTop: 10,
+        }}
+      />
       <SafeAreaView style={styles.form}>
         <TextInput
           label="Name"
@@ -89,31 +150,46 @@ const PatientRegisterForm = () => {
         />
 
         <Button
-          onPress={() =>
-            console.log(name, email, mobile, address, password, confirmPassword)
-          }
+          onPress={handleSubmit}
           mode="contained"
           buttonColor="#1e90ff"
           style={styles.button}
         >
-          ADD
+          Sign Up
         </Button>
-        {/* <Button
-          onPress={() => clearForm()}
-          mode="contained"
-          buttonColor="#87cefa"
-          style={styles.button}
-        >
-          RESET
-        </Button> */}
+        <View style={styles.row}>
+          <Text>Already have an account? </Text>
+          <TouchableOpacity onPress={() => navigation.replace("Login")}>
+            <Text style={styles.link}>Login</Text>
+          </TouchableOpacity>
+        </View>
       </SafeAreaView>
-    </ScrollView>
+      <Snackbar
+        visible={visible}
+        onDismiss={onDismissSnackBar}
+        duration={2000}
+        elevation={5}
+      >
+        {errorMsg}
+      </Snackbar>
+      <Snackbar
+        visible={visibleSuccess}
+        onDismiss={onDismissSuccessSnackBar}
+        duration={2000}
+        action={{label: 'Login', onPress: () => navigation.replace("Login")}}
+        elevation={5}
+      >
+        Registered Successfully
+      </Snackbar>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   input: {
-    margin: 12,
+    margin: 5,
+    width: "90%",
+    alignSelf: "center",
   },
   button: {
     margin: 12,
@@ -126,9 +202,20 @@ const styles = StyleSheet.create({
   view: {
     backgroundColor: "white",
     padding: 10,
+    height: "100%",
   },
   form: {
     padding: 5,
+    height: "100%",
+  },
+  row: {
+    flexDirection: "row",
+    marginTop: 4,
+    justifyContent: "center",
+  },
+  link: {
+    fontWeight: "bold",
+    color: theme.colors.primary,
   },
 });
 
