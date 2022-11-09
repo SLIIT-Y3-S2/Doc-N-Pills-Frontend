@@ -1,7 +1,14 @@
 import React from "react";
-import { SafeAreaView, Text, ScrollView, StyleSheet, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  SafeAreaView,
+  Image,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 import { TextInput, Button } from "react-native-paper";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 const AddMedicineForm = ({ navigation }) => {
@@ -13,6 +20,9 @@ const AddMedicineForm = ({ navigation }) => {
   const [price, setPrice] = useState(null);
   const [dose, setDose] = useState(null);
 
+  const [id, setId] = useState(null);
+  const [name, setName] = useState(null);
+
   const checkSubmit = async () => {
     const newMedicine = {
       brandName: bname,
@@ -21,7 +31,8 @@ const AddMedicineForm = ({ navigation }) => {
       qty: stock,
       type: type,
       dose: dose,
-      pharmacyName: "Pharmacy 1",
+      pharmacyName: name,
+      pharmacyId: id,
     };
 
     if (
@@ -30,9 +41,8 @@ const AddMedicineForm = ({ navigation }) => {
       type != null &&
       stock != null &&
       price != null &&
-      dose != null &&
-      String.valueOf(stock) > 0 )
-    {
+      dose != null
+    ) {
       await axios
         .post("https://doc-n-pills.herokuapp.com/medicine", newMedicine)
         .then(() => {
@@ -46,8 +56,29 @@ const AddMedicineForm = ({ navigation }) => {
     }
   };
 
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        AsyncStorage.getItem("id").then((data) => {
+          console.log("data", data);
+          let user = JSON.parse(data);
+          setName(user.name);
+          setId(user.id);
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUser();
+  }, []);
+
   return (
     <ScrollView style={styles.view}>
+      <Image
+        source={require("../assets/logo.png")}
+        style={{ width: 50, height: 50, marginLeft: "42%" }}
+      />
+
       <SafeAreaView style={styles.form}>
         <TextInput
           label="Brand Name"

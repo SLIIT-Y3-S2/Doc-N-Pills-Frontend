@@ -45,18 +45,12 @@ const AdminBottomNavBar = () => {
         style: { padding: 10, height: 70 },
       }}
     >
-      <Tab.Screen
-        name={adDashboard}
-        component={AdminDashBoard}
-      />
+      <Tab.Screen name={adDashboard} component={AdminDashBoard} />
       <Tab.Screen
         name={searchChannelingCenter}
         component={ChannelingCentersView}
       />
-      <Tab.Screen
-        name={searchPharmacy}
-        component={SearchMedicine}
-      />
+      <Tab.Screen name={searchPharmacy} component={SearchMedicine} />
       <Tab.Screen name={about} component={AboutUs} />
     </Tab.Navigator>
   );

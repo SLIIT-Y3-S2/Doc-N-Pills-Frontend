@@ -14,7 +14,7 @@ import {
 } from "react-native-paper";
 import { useEffect } from "react";
 import axios from "axios";
-import { ActivityIndicator } from 'react-native-paper';
+import { ActivityIndicator } from "react-native-paper";
 
 const Doctors = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = React.useState(null);
@@ -44,7 +44,7 @@ const Doctors = ({ navigation }) => {
         });
     };
     getDoctors();
-  },[]);
+  }, []);
 
   const deleteDoctor = () => {
     axios
@@ -86,54 +86,61 @@ const Doctors = ({ navigation }) => {
         }}
         value={searchQuery}
       />
-      {loading ? (<ActivityIndicator animating={true} size='large' color={'#1e90ff'} style={{marginTop:'50%'}} />):(
-      <ScrollView>
-        {doctors.map((doctor) => (
-          <Card
-            key={doctor._id}
-            style={{
-              backgroundColor: "#87cefa",
-              margin: 10,
-              borderRadius: 5,
-              display: "flex",
-            }}
-          >
-            <Card.Content>
-              <Title style={{ fontWeight: "bold" }}>{doctor.name}</Title>
-              <Paragraph>{doctor.specialization}</Paragraph>
-              <Paragraph>
-                 {doctor.availableDate} | {doctor.availableTime} 
-              </Paragraph>
-              <Paragraph>Rs. {doctor.channelingFee}</Paragraph>
-              <Paragraph style={{ fontWeight: "bold" }}>
-                No. of Patients per day :- {doctor.noofPatients}
-              </Paragraph>
-            </Card.Content>
-            <Card.Actions>
-              <FAB
-                icon="pencil"
-                color={"#1e90ff"}
-                size="small"
-                variant="surface"
-                onPress={() => {
-                  navigation.navigate("Update Doctor", {
-                    params: { doctor },
-                  });
-                }}
-              />
-              <FAB
-                icon="delete"
-                color={"#1e90ff"}
-                size="small"
-                variant="surface"
-                onPress={() => {
-                  showDialog(), setDeleteMed(doctor._id);
-                }}
-              />
-            </Card.Actions>
-          </Card>
-        ))}
-      </ScrollView>
+      {loading ? (
+        <ActivityIndicator
+          animating={true}
+          size="large"
+          color={"#1e90ff"}
+          style={{ marginTop: "50%" }}
+        />
+      ) : (
+        <ScrollView>
+          {doctors.map((doctor) => (
+            <Card
+              key={doctor._id}
+              style={{
+                backgroundColor: "#87cefa",
+                margin: 10,
+                borderRadius: 5,
+                display: "flex",
+              }}
+            >
+              <Card.Content>
+                <Title style={{ fontWeight: "bold" }}>{doctor.name}</Title>
+                <Paragraph>{doctor.specialization}</Paragraph>
+                <Paragraph>
+                  {doctor.availableDate} | {doctor.availableTime}
+                </Paragraph>
+                <Paragraph>Rs. {doctor.channelingFee}</Paragraph>
+                <Paragraph style={{ fontWeight: "bold" }}>
+                  No. of Patients per day :- {doctor.noofPatients}
+                </Paragraph>
+              </Card.Content>
+              <Card.Actions>
+                <FAB
+                  icon="pencil"
+                  color={"#1e90ff"}
+                  size="small"
+                  variant="surface"
+                  onPress={() => {
+                    navigation.navigate("Update Doctor", {
+                      params: { doctor },
+                    });
+                  }}
+                />
+                <FAB
+                  icon="delete"
+                  color={"#1e90ff"}
+                  size="small"
+                  variant="surface"
+                  onPress={() => {
+                    showDialog(), setDeleteMed(doctor._id);
+                  }}
+                />
+              </Card.Actions>
+            </Card>
+          ))}
+        </ScrollView>
       )}
 
       <Provider>
@@ -142,9 +149,7 @@ const Doctors = ({ navigation }) => {
             <Dialog visible={visible} onDismiss={hideDialog}>
               <Dialog.Title>Delete Doctor</Dialog.Title>
               <Dialog.Content>
-                <Paragraph>
-                  Are you sure want to delete this doctor ?
-                </Paragraph>
+                <Paragraph>Are you sure want to delete this doctor ?</Paragraph>
               </Dialog.Content>
               <Dialog.Actions>
                 <Button onPress={hideDialog} textColor={"#1e90ff"}>
