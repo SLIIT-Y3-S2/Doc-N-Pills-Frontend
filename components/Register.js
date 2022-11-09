@@ -34,8 +34,6 @@ const Register = ({ route, navigation }) => {
   const [message, setMessage] = useState("");
   const [isLogin, setIsLogin] = useState(true);
 
-  
-
   const onSignUpPressed = async () => {
     const payload = {
       name: name,

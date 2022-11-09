@@ -1,11 +1,22 @@
 import React from "react";
-import { SafeAreaView, Text, ScrollView, StyleSheet } from "react-native";
+import {
+  SafeAreaView,
+  Image,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { useState } from "react";
 import axios from "axios";
+import RNPickerSelect from "react-native-picker-select";
 
 const UpdateMedicineForm = ({ route, navigation }) => {
   const medicine = route.params.params.medicine;
+
+  const refresh = route.params.params.refresh;
+  const setRefresh = route.params.params.setRefresh;
+
   const [validated, setvalidated] = useState(false);
   const [bname, setBrandName] = useState(medicine.brandName);
   const [mterm, setMedicalTerm] = useState(medicine.medicalTerm);
@@ -22,24 +33,40 @@ const UpdateMedicineForm = ({ route, navigation }) => {
       qty: stock,
       type: type,
       dose: dose,
-      pharmacyName: "Pharmacy 1",
     };
 
-    axios
-      .put(
-        `https://doc-n-pills.herokuapp.com/medicine/${medicine._id}`,
-        newMedicine
-      )
-      .then(() => {
-        alert("Medicine Updated Successfully");
-      })
-      .catch((err) => {
-        alert("Error");
-      });
+    if (
+      bname != null &&
+      mterm != null &&
+      type != null &&
+      stock != null &&
+      price != null &&
+      dose != null
+    ) {
+      axios
+        .put(
+          `https://doc-n-pills.herokuapp.com/medicine/${medicine._id}`,
+          newMedicine
+        )
+        .then(() => {
+          setRefresh(!refresh);
+          alert("Medicine Updated Successfully");
+        })
+        .catch((err) => {
+          alert("Error");
+        });
+    } else {
+      alert("Please fill all the fields");
+    }
   };
 
   return (
     <ScrollView style={styles.view}>
+      <Image
+        source={require("../assets/logo.png")}
+        style={{ width: 50, height: 50, marginLeft: "42%" }}
+      />
+
       <SafeAreaView style={styles.form}>
         <TextInput
           label="Brand Name"
@@ -63,7 +90,7 @@ const UpdateMedicineForm = ({ route, navigation }) => {
           activeOutlineColor="#1e90ff"
         />
 
-        <TextInput
+        {/* <TextInput
           label="Type"
           placeholder="Enter Type"
           value={type}
@@ -72,7 +99,30 @@ const UpdateMedicineForm = ({ route, navigation }) => {
           mode="outlined"
           outlineColor="black"
           activeOutlineColor="#1e90ff"
-        />
+        /> */}
+
+        <View
+          style={{
+            margin: 12,
+            borderWidth: 1,
+            borderColor: "black",
+            borderRadius: 5,
+          }}
+        >
+          <RNPickerSelect
+            placeholder={{ label: "Select type of the medicine ", value: null }}
+            onValueChange={(type) => setType(type)}
+            value={type}
+            items={[
+              { label: "Pill", value: "Pill" },
+              { label: "Capsule", value: "Capsule" },
+              { label: "Cream", value: "Cream" },
+              { label: "Spray", value: "Spray" },
+              { label: "Gel", value: "Gel" },
+              { label: "Other", value: "Other" },
+            ]}
+          />
+        </View>
 
         <TextInput
           label="Stock"

@@ -8,20 +8,17 @@ import Button from "./Assets/Button";
 import TextInput from "./Assets/TextInput";
 import BackButton from "./Assets/BackButton";
 import { theme } from "./core/theme";
-import axios from 'axios'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //const API_URL = "https://doc-n-pills.herokuapp.com/";
 
 export default function Login({ navigation }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const loginNavi = async () => {
-    if(email.length == 0 || password.length == 0){
+    if (email.length == 0 || password.length == 0) {
       Alert.alert("Please fill all the fields");
     } else {
     const loginUser = { email, password };
@@ -55,14 +52,12 @@ export default function Login({ navigation }) {
        console.log(err)
        Alert.alert(err)
    })
-     
-   
 
-       //navigation.push('Home')
-   console.log("email",email)
-   console.log("password",password)
-    }}
-
+      //navigation.push('Home')
+      console.log("email", email);
+      console.log("password", password);
+    }
+  };
 
   return (
     <Background>
@@ -80,6 +75,9 @@ export default function Login({ navigation }) {
         autoCompleteType="email"
         textContentType="emailAddress"
         keyboardType="email-address"
+        mode="outlined"
+        outlineColor="black"
+        activeOutlineColor="#1e90ff"
       />
       <TextInput
         label="Password"
@@ -88,7 +86,10 @@ export default function Login({ navigation }) {
         onChangeText={(text) => setPassword(text)}
         error={!!password.error}
         errorText={password.error}
-        secureTextEntry = {true}
+        secureTextEntry={true}
+        mode="outlined"
+        outlineColor="black"
+        activeOutlineColor="#1e90ff"
       />
       <View style={styles.forgotPassword}>
         <TouchableOpacity
@@ -97,8 +98,11 @@ export default function Login({ navigation }) {
           <Text style={styles.forgot}>Forgot your password?</Text>
         </TouchableOpacity>
       </View>
-      <Button mode="contained"
-        style={{ backgroundColor: "#1e90ff" }} onPress={loginNavi}>
+      <Button
+        mode="contained"
+        style={{ backgroundColor: "#1e90ff" }}
+        onPress={loginNavi}
+      >
         Login
       </Button>
       <View style={styles.row}>
