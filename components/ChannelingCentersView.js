@@ -36,28 +36,27 @@ const ChannelingCentersView = ({ navigation }) => {
     const getCenters = () => {
       setLoading(true);
 
-      try{
-      AsyncStorage.getItem('id')
-      .then((data) => {
-        console.log("data", data);
-        setUserdetails(data.data)
-        console.log("userdetails",userdetails)
-      })      
-      axios
-        .get("https://doc-n-pills.herokuapp.com/users")
-        .then((res) => {
-          console.log(res.data);
-          setCenters(res.data);
-          setLoading(false);
-        })
-        .catch((err) => {
-          alert(err.msg);
+      try {
+        AsyncStorage.getItem("id").then((data) => {
+          console.log("data", data);
+          setUserdetails(data.data);
+          console.log("userdetails", userdetails);
         });
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  console.log("userdetails",userdetails)
+        axios
+          .get("https://doc-n-pills.herokuapp.com/users")
+          .then((res) => {
+            console.log(res.data);
+            setCenters(res.data);
+            setLoading(false);
+          })
+          .catch((err) => {
+            alert(err.msg);
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    console.log("userdetails", userdetails);
 
     getCenters();
   }, []);

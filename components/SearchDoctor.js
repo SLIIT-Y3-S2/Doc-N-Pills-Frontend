@@ -98,11 +98,15 @@ const SearchDoctor = () => {
                 <Title style={{ fontWeight: "bold" }}>
                   {doctor.channelingCenterName}
                 </Title>
-                <Paragraph>{ doctor.name} - {doctor.specialization}</Paragraph>
+                <Paragraph>
+                  {doctor.name} - {doctor.specialization}
+                </Paragraph>
                 <Paragraph>
                   {doctor.availableDate} | {doctor.availableTime}
                 </Paragraph>
-                <Paragraph>Channeling Fee - Rs. {doctor.channelingFee}</Paragraph>
+                <Paragraph>
+                  Channeling Fee - Rs. {doctor.channelingFee}
+                </Paragraph>
                 <Paragraph style={{ fontWeight: "bold" }}>
                   No. of Patients per day :- {doctor.noofPatients}
                 </Paragraph>

@@ -9,7 +9,7 @@ const AboutUs = () => {
     <View style={{ backgroundColor: "white" }}>
       <Image
         source={require("../assets/about.jpg")}
-        style={{ width: '100%', height: 280 }}
+        style={{ width: "100%", height: 280 }}
       />
 
       <Card>
@@ -28,7 +28,7 @@ const AboutUs = () => {
             We are available for you 24x7
           </Paragraph>
           <Paragraph style={{ textAlign: "center", fontWeight: "bold" }}>
-            Copyright 2022 © DCRC. All Rights Reserved.
+            Copyright {new Date().getFullYear()} © DCRC. All Rights Reserved.
           </Paragraph>
         </Card.Content>
       </Card>
@@ -37,7 +37,7 @@ const AboutUs = () => {
         style={{
           flexDirection: "row",
           justifyContent: "space-evenly",
-          marginTop: 5,
+          marginTop: "2%",
           padding: 18,
         }}
       >

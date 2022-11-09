@@ -17,8 +17,8 @@ const AdminDashBoard = ({ navigation }) => {
             navigation.navigate("AdminNavBar", { screen: "Channeling Centers" })
           }
         >
-            Medicines{"  "}
-            <Ionicons name="navigate" size={15} color="white" />
+          Medicines{"  "}
+          <Ionicons name="navigate" size={15} color="white" />
         </Button>
 
         <Button

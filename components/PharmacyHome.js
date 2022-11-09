@@ -8,7 +8,7 @@ const PharmacyHome = ({ navigation }) => {
     <View style={{ backgroundColor: "white" }}>
       <Image
         source={require("../assets/logo.png")}
-        style={{ width: '100%', height: 360 ,marginTop: 40}}
+        style={{ width: "100%", height: 360, marginTop: 40 }}
       />
 
       <View style={{ backgroundColor: "white", height: 250 }}>
@@ -23,8 +23,8 @@ const PharmacyHome = ({ navigation }) => {
           }}
           onPress={() => navigation.navigate("Medicines")}
         >
-            Medicines{"  "}
-            <Ionicons name="navigate" size={15} color="white" />
+          Medicines{"  "}
+          <Ionicons name="fitness" size={20} color="white" />
         </Button>
       </View>
     </View>
