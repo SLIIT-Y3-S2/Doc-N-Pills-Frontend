@@ -6,12 +6,14 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  Text,
 } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import RNPickerSelect from "react-native-picker-select";
 
-const AddMedicineForm = ({ navigation }) => {
+const AddMedicineForm = ({ route, navigation }) => {
   const [validated, setvalidated] = useState(false);
   const [bname, setBrandName] = useState(null);
   const [mterm, setMedicalTerm] = useState(null);
@@ -22,6 +24,9 @@ const AddMedicineForm = ({ navigation }) => {
 
   const [id, setId] = useState(null);
   const [name, setName] = useState(null);
+
+  const refresh = route.params.params.refresh;
+  const setRefresh = route.params.params.setRefresh;
 
   const checkSubmit = async () => {
     const newMedicine = {
@@ -46,6 +51,7 @@ const AddMedicineForm = ({ navigation }) => {
       await axios
         .post("https://doc-n-pills.herokuapp.com/medicine", newMedicine)
         .then(() => {
+          setRefresh(!refresh);
           alert("Medicine Added Successfully");
         })
         .catch((err) => {
@@ -102,7 +108,7 @@ const AddMedicineForm = ({ navigation }) => {
           activeOutlineColor="#1e90ff"
         />
 
-        <TextInput
+        {/* <TextInput
           label="Type"
           placeholder="Enter Type"
           value={type}
@@ -111,7 +117,30 @@ const AddMedicineForm = ({ navigation }) => {
           mode="outlined"
           outlineColor="black"
           activeOutlineColor="#1e90ff"
-        />
+        /> */}
+
+        <View
+          style={{
+            margin: 12,
+            borderWidth: 1,
+            borderColor: "black",
+            borderRadius: 5,
+          }}
+        >
+          <RNPickerSelect
+            placeholder={{ label: "Select type of the medicine ", value: null }}
+            onValueChange={(type) => setType(type)}
+            value={type}
+            items={[
+              { label: "Pill", value: "Pill" },
+              { label: "Capsule", value: "Capsule" },
+              { label: "Cream", value: "Cream" },
+              { label: "Spray", value: "Spray" },
+              { label: "Gel", value: "Gel" },
+              { label: "Other", value: "Other" },
+            ]}
+          />
+        </View>
 
         <TextInput
           label="Stock"

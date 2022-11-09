@@ -46,10 +46,10 @@ const PharmacyBottomNavBar = () => {
         style: { padding: 10, height: 70 },
       }}
     >
-      <Tab.Screen name={home} component={PharmacyHome} />
-      <Tab.Screen name={medicines} component={Medicines} />
-      <Tab.Screen name={about} component={AboutUs} />
-      <Tab.Screen name={profile} component={PharmacyProfile} />
+      <Tab.Screen name={home} component={PharmacyHome} options={{ headerTitleAlign:'center' }}/>
+      <Tab.Screen name={medicines} component={Medicines} options={{ headerTitleAlign:'center' }}/>
+      <Tab.Screen name={about} component={AboutUs} options={{ headerTitleAlign:'center' }}/>
+      <Tab.Screen name={profile} component={PharmacyProfile} options={{ headerTitleAlign:'center' }}/>
     </Tab.Navigator>
   );
 };

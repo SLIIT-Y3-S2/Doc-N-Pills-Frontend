@@ -54,14 +54,26 @@ export default function App() {
             component={PharmacyBottomNavBar}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Add Medicine" component={AddMedicineForm} />
-          <Stack.Screen name="Update Medicine" component={UpdateMedicineForm} />
+          <Stack.Screen
+            name="Add Medicine"
+            component={AddMedicineForm}
+            options={{ headerTitleAlign: "center" }}
+          />
+          <Stack.Screen
+            name="Update Medicine"
+            component={UpdateMedicineForm}
+            options={{ headerTitleAlign: "center" }}
+          />
           <Stack.Screen
             name="PatientNavBar"
             component={PatientBottomNavBar}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="User Register" component={PatientRegisterForm} />
+          <Stack.Screen
+            name="User Register"
+            component={PatientRegisterForm}
+            options={{ headerTitleAlign: "center" }}
+          />
           <Stack.Screen
             name="AdminNavBar"
             component={AdminBottomNavBar}
@@ -72,10 +84,26 @@ export default function App() {
             component={ChannelingCenterBottomNavBar}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Home" component={ChannelingCenterHome} />
-          <Stack.Screen name="Doctors" component={Doctors} />
-          <Stack.Screen name="Add Doctor" component={AddDoctorForm} />
-          <Stack.Screen name="Update Doctor" component={UpdateDoctorForm} />
+          <Stack.Screen
+            name="Home"
+            component={ChannelingCenterHome}
+            options={{ headerTitleAlign: "center" }}
+          />
+          <Stack.Screen
+            name="Doctors"
+            component={Doctors}
+            options={{ headerTitleAlign: "center" }}
+          />
+          <Stack.Screen
+            name="Add Doctor"
+            component={AddDoctorForm}
+            options={{ headerTitleAlign: "center" }}
+          />
+          <Stack.Screen
+            name="Update Doctor"
+            component={UpdateDoctorForm}
+            options={{ headerTitleAlign: "center" }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>
