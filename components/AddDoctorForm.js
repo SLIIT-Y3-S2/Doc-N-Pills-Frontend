@@ -1,7 +1,8 @@
 import React from "react";
-import { SafeAreaView, Text, ScrollView, StyleSheet, View, Platform } from "react-native";
+import { SafeAreaView, Text, ScrollView, StyleSheet, View, Platform, Image } from "react-native";
 import { TextInput, Button } from "react-native-paper";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import dayjs from 'dayjs';
 import TextField from '@mui/material/TextField';
@@ -20,32 +21,27 @@ const AddDoctorForm = ({ navigation }) => {
   const [fee, setFee] = useState(null);
   const [limit, setLimit] = useState(null);
 
-  const [stime, setTime1] = useState(new Date());
-  const [etime, setTime2] = useState(new Date());
+  const [atime, setTime1] = useState(new Date());
   const [mode, setMode] = useState('time');
   const [show, setShow] = useState(false);
-  const [text1, setText1] = useState(' ');
-  const [text2, setText2] = useState(' ');
+  const [text, setText] = useState(' ');
+
+  const [id, setId] = useState(null);
+  const [name, setName] = useState(null);
+  
 
   const onChange1 = (event, selectedDate) => {
-    const currentDate = selectedDate || stime;
+    const currentDate = selectedDate || atime;
     setShow(Platform.OS === 'ios');
     setTime1(currentDate);
     console.log(currentDate.getHours() + ":" + currentDate.getMinutes());
+    console.log("atime",atime)
     let tempDate1 = new Date(currentDate)
     let ftime1 =  tempDate1.getHours() + '.' + tempDate1.getMinutes();
-    setText1(ftime1)
-  };
-
-  
-  const onChange2 = (event, selectedDate) => {
-    const currentDate = selectedDate || etime;
-    setShow(Platform.OS === 'ios');
-    setTime2(currentDate);
-    console.log(currentDate.getHours() + ":" + currentDate.getMinutes());
-    let tempDate2 = new Date(currentDate)
-    let ftime2 =  tempDate2.getHours() + '.' + tempDate2.getMinutes();
-    setText2(ftime2)
+    const time = (currentDate.getHours() + ":" + currentDate.getMinutes());
+    console.log("time",time)
+    console.log("ftime",ftime1)
+    setText(ftime1)
   };
 
   const showMode = (currentMode) => {
@@ -56,18 +52,36 @@ const AddDoctorForm = ({ navigation }) => {
     showMode('time');
   };
 
+
   const checkSubmit = async () => {
     const newDoctor = {
       name: dname,
       specialization: splze,
       availableDate: adate,
-      startTime: stime,
-      endTime: etime,
+      arrivalTime: text,
       channelingFee: fee,
       noofPatients: limit,
-      channelingCenterName: "Channeling Center 1",
+      channelingCenterName: name,
+      channelingCenterId: id,
     };
 
+  //   await axios
+  //     .post("https://doc-n-pills.herokuapp.com/doctor", newDoctor)
+  //     .then(() => {
+  //       alert("Doctor Added Successfully");
+  //     })
+  //     .catch((err) => {
+  //       alert("Error");
+  //     });
+  // };
+
+  if (
+    dname != null &&
+    splze != null &&
+    text != null &&
+    fee != null &&
+    limit != null 
+  ) {
     await axios
       .post("https://doc-n-pills.herokuapp.com/doctor", newDoctor)
       .then(() => {
@@ -76,10 +90,33 @@ const AddDoctorForm = ({ navigation }) => {
       .catch((err) => {
         alert("Error");
       });
+  } else {
+    alert("Please fill all the fields");
+  }
+};
+
+useEffect(() => {
+  const getUser = async () => {
+    try {
+      AsyncStorage.getItem("id").then((data) => {
+        console.log("data", data);
+        let user = JSON.parse(data);
+        setName(user.name);
+        setId(user.id);
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
+  getUser();
+}, []);
 
   return (
     <ScrollView style={styles.view}>
+      <Image
+        source={require("../assets/logo.png")}
+        style={{ width: 50, height: 50, marginLeft: "42%" }}
+      />
       <SafeAreaView style={styles.form}>
         <TextInput
           label="Doctor Name"
@@ -115,9 +152,9 @@ const AddDoctorForm = ({ navigation }) => {
         />
 
         <TextInput
-          label="Start Time"
-          placeholder="Select Start Time"
-          value={text1}
+          label="Arrival Time"
+          placeholder="Select Arrival Time"
+          value={text}
           style={styles.input}
           mode="outlined"
           outlineColor="black"
@@ -129,34 +166,11 @@ const AddDoctorForm = ({ navigation }) => {
         {show && (
         <DateTimePicker
           testID="dateTimePicker"
-          value={stime}
+          value={atime}
           mode={mode}
           is24Hour={true}
           display="default"
           onChange={onChange1}
-        />
-        )}
-
-         <TextInput
-          label="End Time"
-          placeholder="Select End Time"
-          value={text2}
-          style={styles.input}
-          mode="outlined"
-          outlineColor="black"
-          activeOutlineColor="#1e90ff"
-          // onChange={(selectedtime) => setTime(selectedtime)}
-          right={<TextInput.Icon icon="clock" onPress={showTimepicker} />}
-        />
-        
-        {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={etime}
-          mode={mode}
-          is24Hour={true}
-          display="default"
-          onChange={onChange2}
         />
         )}
 

@@ -20,8 +20,6 @@ import AddDoctorForm from "./components/AddDoctorForm";
 import UpdateDoctorForm from "./components/UpdateDoctorForm";
 import Doctors from "./components/Doctors";
 
-import TimePicker from './components/TimePicker';
-
 const Stack = createStackNavigator();
 
 export default function App() {

@@ -36,7 +36,7 @@ export default function Login({ navigation }) {
             if (data.data.user.type == "Pharmacy Agent") {
               navigation.push("DocNPills");
             } else if (data.data.user.type == "Channeling Center Agent") {
-              navigation.push("Register");
+              navigation.push("ChCenterNavbar");
             } else if (data.data.user.type == "Patient") {
               navigation.push("PatientNavBar");
             } else if (data.data.user.type == "System Admin") {

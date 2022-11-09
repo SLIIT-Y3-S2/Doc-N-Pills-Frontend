@@ -1,5 +1,6 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Searchbar } from "react-native-paper";
 import {
   Card,
@@ -17,27 +18,24 @@ import axios from "axios";
 import { ActivityIndicator } from "react-native-paper";
 
 const Doctors = ({ navigation }) => {
-  const [searchQuery, setSearchQuery] = React.useState(null);
-  const onChangeSearch = (query) => setSearchQuery(query);
+
+
+  const [searchQuery, setSearchQuery] = React.useState("");
 
   const [doctors, setDoctor] = React.useState([]);
   const [deletemed, setDeleteMed] = React.useState(null);
+
   const [loading, setLoading] = React.useState(false);
 
   const [visible, setVisible] = React.useState(false);
 
-
-
-// const [text1, setText1] = useState(' ');
-//   const time = (e)=>{
-//     let ftime1 =  tempDate1.getHours() + '.' + tempDate1.getMinutes();
-//     setText1(ftime1)
-//   }
+  const [id, setId] = React.useState(null);
 
   const showDialog = () => {
     setVisible(true);
   };
   const hideDialog = () => setVisible(false);
+
 
   useEffect(() => {
     const getDoctors = () => {
@@ -53,7 +51,23 @@ const Doctors = ({ navigation }) => {
         });
     };
     getDoctors();
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        AsyncStorage.getItem("id").then((data) => {
+          console.log("data", data);
+          let user = JSON.parse(data);
+          setId(user.id);
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUser();
   }, []);
+
 
   const deleteDoctor = () => {
     axios
@@ -66,32 +80,32 @@ const Doctors = ({ navigation }) => {
       });
   };
 
-  // const filterContent = (Doctors, searchQuery) => {
-  //   const result = Doctors.filter(
-  //     (medicine) =>
-  //       medicine.brandName.toLowerCase().includes(searchQuery) ||
-  //       medicine.medicalTerm.toLowerCase().includes(searchQuery)
+  const filterContent = (doctors, searchTerm) => {
+    const result = doctors.filter(
+      (doctor) =>
+        doctor.name.toLowerCase().includes(searchTerm) ||
+        doctor.specialization.toLowerCase().includes(searchTerm)
+    );
+    setDoctor(result);
+  };
 
-  //   );
-  //   setMedicine(result);
-  // };
+  const handleTextSearch = (searchTerm) => {
+    setSearchQuery(searchTerm);
+    axios.get("https://doc-n-pills.herokuapp.com/doctor").then((res) => {
+      if (res.data) {
+        filterContent(res.data, searchTerm);
+      }
+    });
+  };
 
-  // const handleTextSearch = () => {
-  //   const searchQuery = e.currentTarget.value;
-  //   console.log(searchQuery);
-  //   axios.get("https://doc-n-pills.herokuapp.com/medicine").then((res) => {
-  //     if (res.data) {
-  //       filterContent(res.data, searchQuery);
-  //     }
-  //   });
-  // };
+
 
   return (
     <>
       <Searchbar
         placeholder="Search"
-        onChangeText={() => {
-          onChangeSearch;
+        onChangeText={(searchTerm) => {
+          setSearchQuery(searchTerm);
         }}
         value={searchQuery}
       />
@@ -111,7 +125,7 @@ const Doctors = ({ navigation }) => {
               <Title style={{ fontWeight: "bold" }}>{doctor.name}</Title>
               <Paragraph>{doctor.specialization}</Paragraph>
               <Paragraph>
-                 {doctor.availableDate} | {doctor.startTime} To {doctor.endTime}
+                 {doctor.availableDate} | {doctor.arrivalTime}
               </Paragraph>
               <Paragraph>Rs. {doctor.channelingFee}</Paragraph>
               <Paragraph style={{ fontWeight: "bold" }}>
