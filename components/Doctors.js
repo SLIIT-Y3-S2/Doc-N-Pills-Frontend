@@ -14,7 +14,7 @@ import {
 } from "react-native-paper";
 import { useEffect } from "react";
 import axios from "axios";
-import { ActivityIndicator } from 'react-native-paper';
+import { ActivityIndicator } from "react-native-paper";
 
 const Doctors = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = React.useState(null);
@@ -53,7 +53,7 @@ const Doctors = ({ navigation }) => {
         });
     };
     getDoctors();
-  },[]);
+  }, []);
 
   const deleteDoctor = () => {
     axios
@@ -151,9 +151,7 @@ const Doctors = ({ navigation }) => {
             <Dialog visible={visible} onDismiss={hideDialog}>
               <Dialog.Title>Delete Doctor</Dialog.Title>
               <Dialog.Content>
-                <Paragraph>
-                  Are you sure want to delete this doctor ?
-                </Paragraph>
+                <Paragraph>Are you sure want to delete this doctor ?</Paragraph>
               </Dialog.Content>
               <Dialog.Actions>
                 <Button onPress={hideDialog} textColor={"#1e90ff"}>

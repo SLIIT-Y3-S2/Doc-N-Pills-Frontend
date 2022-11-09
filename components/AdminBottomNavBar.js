@@ -1,39 +1,38 @@
 import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
-
-import ChannelingCenterHome from "./ChannelingCenterHome";
-import Doctors from "./Doctors";
-import ChannelingCenterProfile from "./ChannelingCenterProfile";
+import SearchMedicine from "./SearchMedicine";
 import AboutUs from "./AboutUs";
+import AdminDashBoard from "./AdminDashBoard";
+import ChannelingCentersView from "./ChannelingCentersView";
 
-const home = "Home";
-const doctors = "Doctors";
-const profile = "Profile";
+const adDashboard = "AdDashboard";
+const searchChannelingCenter = "Channeling Centers";
+const searchPharmacy = "Pharmacies";
+//const profile = "Profile";
 const about = "About Us";
 
 const Tab = createBottomTabNavigator();
 
-const BottomNavBar = () => {
+const AdminBottomNavBar = () => {
   return (
     <Tab.Navigator
-      initialRouteName={home}
+      initialRouteName={adDashboard}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          let rn = route.name;
+          let routerName = route.name;
 
-          if (rn === home) {
+          if (routerName === adDashboard) {
             iconName = focused ? "home" : "home-outline";
-          } else if (rn === doctors) {
+          } else if (routerName === searchPharmacy) {
+            iconName = focused ? "medkit" : "medkit-outline";
+          } else if (routerName === searchChannelingCenter) {
             iconName = focused ? "people" : "people-outline";
-          } else if (rn === about) {
+          } else if (routerName === about) {
             iconName = focused
               ? "information-circle"
               : "information-circle-outline";
-          } else if (rn === profile) {
-            iconName = focused ? "person-circle" : "person-circle-outline";
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -46,12 +45,15 @@ const BottomNavBar = () => {
         style: { padding: 10, height: 70 },
       }}
     >
-      <Tab.Screen name={home} component={ChannelingCenterHome} />
-      <Tab.Screen name={doctors} component={Doctors} />
+      <Tab.Screen name={adDashboard} component={AdminDashBoard} />
+      <Tab.Screen
+        name={searchChannelingCenter}
+        component={ChannelingCentersView}
+      />
+      <Tab.Screen name={searchPharmacy} component={SearchMedicine} />
       <Tab.Screen name={about} component={AboutUs} />
-      <Tab.Screen name={profile} component={ChannelingCenterProfile} />
     </Tab.Navigator>
   );
 };
 
-export default BottomNavBar;
+export default AdminBottomNavBar;

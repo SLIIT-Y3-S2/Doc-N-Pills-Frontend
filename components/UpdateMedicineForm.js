@@ -1,5 +1,5 @@
 import React from "react";
-import { SafeAreaView, Text, ScrollView, StyleSheet } from "react-native";
+import { SafeAreaView, Image, ScrollView, StyleSheet } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { useState } from "react";
 import axios from "axios";
@@ -22,24 +22,39 @@ const UpdateMedicineForm = ({ route, navigation }) => {
       qty: stock,
       type: type,
       dose: dose,
-      pharmacyName: "Pharmacy 1",
     };
 
-    axios
-      .put(
-        `https://doc-n-pills.herokuapp.com/medicine/${medicine._id}`,
-        newMedicine
-      )
-      .then(() => {
-        alert("Medicine Updated Successfully");
-      })
-      .catch((err) => {
-        alert("Error");
-      });
+    if (
+      bname != null &&
+      mterm != null &&
+      type != null &&
+      stock != null &&
+      price != null &&
+      dose != null
+    ) {
+      axios
+        .put(
+          `https://doc-n-pills.herokuapp.com/medicine/${medicine._id}`,
+          newMedicine
+        )
+        .then(() => {
+          alert("Medicine Updated Successfully");
+        })
+        .catch((err) => {
+          alert("Error");
+        });
+    } else {
+      alert("Please fill all the fields");
+    }
   };
 
   return (
     <ScrollView style={styles.view}>
+      <Image
+        source={require("../assets/logo.png")}
+        style={{ width: 50, height: 50, marginLeft: "42%" }}
+      />
+
       <SafeAreaView style={styles.form}>
         <TextInput
           label="Brand Name"

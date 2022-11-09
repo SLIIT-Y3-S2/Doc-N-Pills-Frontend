@@ -1,11 +1,21 @@
-import React from 'react'
-import { StyleSheet, View } from 'react-native';
-import { Button } from 'react-native-paper';
+import React from "react";
+import { Image, StyleSheet, View } from "react-native";
+import { Button, Title } from "react-native-paper";
 
-const PatientDashboard = ({navigation}) => {
+const PatientDashboard = ({ navigation }) => {
   return (
-    <View>
-      <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+    <View style={{ backgroundColor: "white", height: "100%" }}>
+      <Image source={require("../assets/logoNoBG.png")} style={styles.image} />
+      <View style={{ flexDirection: "row", justifyContent: "center" }}>
+        <Title>Are You Looking For...</Title>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          marginTop: 20,
+        }}
+      >
         <Button
           icon="pill"
           textColor="white"
@@ -36,7 +46,7 @@ const PatientDashboard = ({navigation}) => {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   button: {
@@ -45,7 +55,11 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
     color: "white",
     backgroundColor: "#1e90ff",
- },
+  },
+  image: {
+    width: 400,
+    height: 500,
+  },
 });
 
-export default PatientDashboard
+export default PatientDashboard;

@@ -16,20 +16,17 @@ const UpdateDoctorForm = ({ route, navigation }) => {
 
   const checkSubmit = () => {
     const newDoctor = {
-        name: dname,
-        specialization: splze,
-        availableDate: adate,
-        availableTime: atime,
-        channelingFee: fee,
-        noofPatients: limit,
-        channelingCenterName: "Channeling Center 1",
-      };
+      name: dname,
+      specialization: splze,
+      availableDate: adate,
+      availableTime: atime,
+      channelingFee: fee,
+      noofPatients: limit,
+      channelingCenterName: "Channeling Center 1",
+    };
 
     axios
-      .put(
-        `https://doc-n-pills.herokuapp.com/doctor/${doctor._id}`,
-        newDoctor
-      )
+      .put(`https://doc-n-pills.herokuapp.com/doctor/${doctor._id}`, newDoctor)
       .then(() => {
         alert("Doctor Updated Successfully");
       })
@@ -41,7 +38,7 @@ const UpdateDoctorForm = ({ route, navigation }) => {
   return (
     <ScrollView style={styles.view}>
       <SafeAreaView style={styles.form}>
-      <TextInput
+        <TextInput
           label="Doctor Name"
           placeholder="Enter Doctor Name"
           value={dname}
