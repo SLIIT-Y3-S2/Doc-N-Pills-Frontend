@@ -25,6 +25,15 @@ const Doctors = ({ navigation }) => {
   const [loading, setLoading] = React.useState(false);
 
   const [visible, setVisible] = React.useState(false);
+
+
+
+// const [text1, setText1] = useState(' ');
+//   const time = (e)=>{
+//     let ftime1 =  tempDate1.getHours() + '.' + tempDate1.getMinutes();
+//     setText1(ftime1)
+//   }
+
   const showDialog = () => {
     setVisible(true);
   };
@@ -102,7 +111,7 @@ const Doctors = ({ navigation }) => {
               <Title style={{ fontWeight: "bold" }}>{doctor.name}</Title>
               <Paragraph>{doctor.specialization}</Paragraph>
               <Paragraph>
-                 {doctor.availableDate} | {doctor.availableTime} 
+                 {doctor.availableDate} | {doctor.startTime} To {doctor.endTime}
               </Paragraph>
               <Paragraph>Rs. {doctor.channelingFee}</Paragraph>
               <Paragraph style={{ fontWeight: "bold" }}>

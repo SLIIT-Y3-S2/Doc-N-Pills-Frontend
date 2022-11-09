@@ -1,24 +1,68 @@
 import React from "react";
-import { SafeAreaView, Text, ScrollView, StyleSheet, View } from "react-native";
+import { SafeAreaView, Text, ScrollView, StyleSheet, View, Platform } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { useState } from "react";
 import axios from "axios";
+import dayjs from 'dayjs';
+import TextField from '@mui/material/TextField';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
+import Ionicons from "react-native-vector-icons/Ionicons";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const AddDoctorForm = ({ navigation }) => {
+  //const [value, setValue] = React.useState(dayjs('2018-01-01T00:00:00.000Z'));
   const [validated, setvalidated] = useState(false);
   const [dname, setDoctorName] = useState(null);
   const [splze, setSpecialization] = useState(null);
-  const [adate, setDate] = useState(null);
-  const [atime, setTime] = useState(null);
+  const [adate, setDates] = useState(null);
   const [fee, setFee] = useState(null);
   const [limit, setLimit] = useState(null);
+
+  const [stime, setTime1] = useState(new Date());
+  const [etime, setTime2] = useState(new Date());
+  const [mode, setMode] = useState('time');
+  const [show, setShow] = useState(false);
+  const [text1, setText1] = useState(' ');
+  const [text2, setText2] = useState(' ');
+
+  const onChange1 = (event, selectedDate) => {
+    const currentDate = selectedDate || stime;
+    setShow(Platform.OS === 'ios');
+    setTime1(currentDate);
+    console.log(currentDate.getHours() + ":" + currentDate.getMinutes());
+    let tempDate1 = new Date(currentDate)
+    let ftime1 =  tempDate1.getHours() + '.' + tempDate1.getMinutes();
+    setText1(ftime1)
+  };
+
+  
+  const onChange2 = (event, selectedDate) => {
+    const currentDate = selectedDate || etime;
+    setShow(Platform.OS === 'ios');
+    setTime2(currentDate);
+    console.log(currentDate.getHours() + ":" + currentDate.getMinutes());
+    let tempDate2 = new Date(currentDate)
+    let ftime2 =  tempDate2.getHours() + '.' + tempDate2.getMinutes();
+    setText2(ftime2)
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+  const showTimepicker = () => {
+    showMode('time');
+  };
 
   const checkSubmit = async () => {
     const newDoctor = {
       name: dname,
       specialization: splze,
       availableDate: adate,
-      availableTime: atime,
+      startTime: stime,
+      endTime: etime,
       channelingFee: fee,
       noofPatients: limit,
       channelingCenterName: "Channeling Center 1",
@@ -64,22 +108,59 @@ const AddDoctorForm = ({ navigation }) => {
           placeholder="Enter Available Date"
           value={adate}
           style={styles.input}
-          onChangeText={(text) => setDate(text)}
+          onChangeText={(text) => setDates(text)}
           mode="outlined"
           outlineColor="black"
           activeOutlineColor="#1e90ff"
         />
 
         <TextInput
-          label="AvailableTime"
-          placeholder="Enter Available Time"
-          value={atime}
+          label="Start Time"
+          placeholder="Select Start Time"
+          value={text1}
           style={styles.input}
-          onChangeText={(text) => setTime(text)}
           mode="outlined"
           outlineColor="black"
           activeOutlineColor="#1e90ff"
+          // onChange={(selectedtime) => setTime(selectedtime)}
+          right={<TextInput.Icon icon="clock" onPress={showTimepicker} />}
         />
+        
+        {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={stime}
+          mode={mode}
+          is24Hour={true}
+          display="default"
+          onChange={onChange1}
+        />
+        )}
+
+         <TextInput
+          label="End Time"
+          placeholder="Select End Time"
+          value={text2}
+          style={styles.input}
+          mode="outlined"
+          outlineColor="black"
+          activeOutlineColor="#1e90ff"
+          // onChange={(selectedtime) => setTime(selectedtime)}
+          right={<TextInput.Icon icon="clock" onPress={showTimepicker} />}
+        />
+        
+        {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={etime}
+          mode={mode}
+          is24Hour={true}
+          display="default"
+          onChange={onChange2}
+        />
+        )}
+
+        
 
         <TextInput
           label="ChannelingFee"
