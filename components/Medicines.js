@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ScrollView, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Searchbar } from "react-native-paper";
@@ -12,10 +12,9 @@ import {
   Provider,
   Button,
   FAB,
+  ActivityIndicator,
 } from "react-native-paper";
-import { useEffect } from "react";
 import axios from "axios";
-import { ActivityIndicator } from "react-native-paper";
 
 const Medicines = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -28,6 +27,8 @@ const Medicines = ({ navigation }) => {
   const [visible, setVisible] = React.useState(false);
 
   const [id, setId] = React.useState(null);
+
+  const [refresh, setRefresh] = React.useState(false);
 
   const showDialog = () => {
     setVisible(true);
@@ -48,7 +49,7 @@ const Medicines = ({ navigation }) => {
         });
     };
     getMedicines();
-  }, [searchQuery]);
+  }, [searchQuery, refresh]);
 
   useEffect(() => {
     const getUser = async () => {
@@ -69,6 +70,7 @@ const Medicines = ({ navigation }) => {
     axios
       .delete(`https://doc-n-pills.herokuapp.com/medicine/${deletemed}`)
       .then(() => {
+        setRefresh(!refresh);
         alert("Medicine Deleted Successfully");
       })
       .catch((err) => {
@@ -99,7 +101,7 @@ const Medicines = ({ navigation }) => {
       <Searchbar
         placeholder="Search"
         onChangeText={(searchTerm) => {
-          setSearchQuery(searchTerm);
+          handleTextSearch(searchTerm);
         }}
         value={searchQuery}
       />
@@ -144,7 +146,7 @@ const Medicines = ({ navigation }) => {
                     variant="surface"
                     onPress={() => {
                       navigation.navigate("Update Medicine", {
-                        params: { medicine },
+                        params: { medicine, refresh, setRefresh },
                       });
                     }}
                   />
@@ -199,7 +201,11 @@ const Medicines = ({ navigation }) => {
           size={40}
           backgroundColor={"#1e90ff"}
           borderRadius={10}
-          onPress={() => navigation.navigate("Add Medicine")}
+          onPress={() => {
+            navigation.navigate("Add Medicine", {
+              params: { refresh, setRefresh },
+            });
+          }}
         />
       </View>
     </>
