@@ -10,6 +10,7 @@ import {
   Dialog,
   Portal,
 } from "react-native-paper";
+import axios from "axios";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 const PatientProfile = ({ navigation }) => {
@@ -19,6 +20,7 @@ const PatientProfile = ({ navigation }) => {
   const [mobile, setMobile] = useState(null);
   const [address, setAddress] = useState(null);
   const [visible, setVisible] = useState(false);
+  const [visibleDelete, setVisibleDelete] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
   const showDialog = () => {
@@ -26,6 +28,14 @@ const PatientProfile = ({ navigation }) => {
   };
   const hideDialog = () => {
     setVisible(false);
+  };
+
+  const showDialogDelete = () => {
+    setVisibleDelete(true);
+  };
+
+  const hideDialogDelete = () => {
+    setVisibleDelete(false);
   };
 
   const getUser = async () => {
@@ -47,6 +57,20 @@ const PatientProfile = ({ navigation }) => {
   useEffect(() => {
     getUser();
   }, [refresh]);
+
+  const deleteAccount = async () => {
+    await axios
+      .delete(`https://doc-n-pills.herokuapp.com/patient/${id}`)
+      .then((res) => {
+        console.log(res.data);
+        setVisibleDelete(false);
+        navigation.navigate("Welcome Admin");
+      })
+      .catch((err) => {
+        alert("Account not deleted");
+        console.log(err);
+      });
+  };
 
   const handlelogout = () => {
     AsyncStorage.removeItem("id");
@@ -154,6 +178,7 @@ const PatientProfile = ({ navigation }) => {
           mode="elevated"
           textColor="red"
           style={styles.button}
+          onPress={showDialogDelete}
         >
           Delete
         </Button>
@@ -178,6 +203,34 @@ const PatientProfile = ({ navigation }) => {
                   textColor={"red"}
                 >
                   Log out
+                </Button>
+              </Dialog.Actions>
+            </Dialog>
+          </Portal>
+        </View>
+      </Provider>
+      <Provider>
+        <View>
+          <Portal>
+            <Dialog visible={visibleDelete} onDismiss={hideDialogDelete}>
+              <Dialog.Title>Delete Account</Dialog.Title>
+              <Dialog.Content>
+                <Paragraph>
+                  Are you sure want to delete your Account?
+                </Paragraph>
+              </Dialog.Content>
+              <Dialog.Actions>
+                <Button onPress={hideDialogDelete} textColor={"#1e90ff"}>
+                  {" "}
+                  Cancel
+                </Button>
+                <Button
+                  onPress={() => {
+                    deleteAccount()
+                  }}
+                  textColor={"red"}
+                >
+                  Delete
                 </Button>
               </Dialog.Actions>
             </Dialog>
