@@ -15,7 +15,7 @@ const AdminWelcome = ({ navigation }) => {
       <Button
         mode="contained"
         style={{ backgroundColor: "#1e90ff" }}
-        onPress={() => navigation.push("Register")}
+        onPress={() => navigation.push("User Register")}
       >
         Get Started
       </Button>

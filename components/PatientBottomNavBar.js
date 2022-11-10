@@ -68,8 +68,16 @@ const PatientBottomNavBar = () => {
           headerTitleAlign: "center",
         }}
       />
-      <Tab.Screen name={about} component={AboutUs} />
-      <Tab.Screen name={profile} component={PatientProfile} />
+      <Tab.Screen
+        name={about}
+        component={AboutUs}
+        options={{ headerTitleAlign: "center" }}
+      />
+      <Tab.Screen
+        name={profile}
+        component={PatientProfile}
+        options={{ headerTitleAlign: "center" }}
+      />
     </Tab.Navigator>
   );
 };

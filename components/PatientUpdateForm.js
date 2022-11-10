@@ -9,67 +9,55 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { TextInput, Button ,Snackbar} from "react-native-paper";
-import { theme } from "./core/theme";
+import { TextInput, Button, Snackbar } from "react-native-paper";
 
-const PatientRegisterForm = ({ navigation }) => {
-  const [name, setName] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [mobile, setMobile] = useState(null);
-  const [address, setAddress] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [confirmPassword, setConfirmPassword] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
+const PatientUpdateForm = ({ navigation, route }) => {
+  const [newname, setName] = useState(route.params.params.name);
+  const [newemail, setEmail] = useState(route.params.params.email);
+  const [newmobile, setMobile] = useState(route.params.params.mobile);
+  const [newaddress, setAddress] = useState(route.params.params.address);
   const [visible, setVisible] = useState(false);
   const [visibleSuccess, setVisibleSuccess] = useState(false);
+  const refresh = route.params.params.refresh;
+  const setRefresh = route.params.params.setRefresh;
 
   const onToggleSuccessSnackBar = () => {
     setVisibleSuccess(!visibleSuccess);
-  }
+  };
 
   const onDismissSuccessSnackBar = () => {
-    setVisibleSuccess(false)
+      setVisibleSuccess(false);
+      setRefresh(!refresh);
+      navigation.navigate("PatientNavBar", { screen: "Profile" });
   };
 
   const onToggleSnackBar = () => {
     setVisible(!visible);
-  }
+  };
 
   const onDismissSnackBar = () => {
     setVisible(false);
-    navigation.navigate("Login");
-  }
+  };
 
   const handleSubmit = async () => {
     try {
       const newPatient = {
-        name,
-        email,
-        mobile,
-        address,
-        password,
-        confirmPassword,
-      };
-      const result = await axios.post(
-        "https://doc-n-pills.herokuapp.com/patient",
+        name:newname,
+        email:newemail,
+        mobile:newmobile,
+        address:newaddress,
+        };
+      const result = await axios.put(
+        `https://doc-n-pills.herokuapp.com/patient/${route.params.params.id}`,
         newPatient
       );
       onToggleSuccessSnackBar();
     } catch (err) {
-      console.log(err.response.data.msg);
-      setErrorMsg(err.response.data.msg);
+        console.log(err);
       onToggleSnackBar();
     }
   };
 
-  const clearForm = () => {
-    setName(null);
-    setEmail(null);
-    setMobile(null);
-    setAddress(null);
-    setPassword(null);
-    setConfirmPassword(null);
-  };
   return (
     <View style={{ height: "100%", backgroundColor: "white" }}>
       <Image
@@ -85,7 +73,7 @@ const PatientRegisterForm = ({ navigation }) => {
         <TextInput
           label="Name"
           placeholder="Enter Your Name"
-          value={name}
+          value={newname}
           style={styles.input}
           onChangeText={(text) => setName(text)}
           mode="outlined"
@@ -96,7 +84,7 @@ const PatientRegisterForm = ({ navigation }) => {
         <TextInput
           label="Email Address"
           placeholder="Enter Your Email"
-          value={email}
+          value={newemail}
           style={styles.input}
           onChangeText={(text) => setEmail(text)}
           mode="outlined"
@@ -107,7 +95,7 @@ const PatientRegisterForm = ({ navigation }) => {
         <TextInput
           label="Mobile Number"
           placeholder="Enter Your Mobile Number"
-          value={mobile}
+          value={newmobile}
           style={styles.input}
           keyboardType="numeric"
           onChangeText={(text) => setMobile(text)}
@@ -119,31 +107,9 @@ const PatientRegisterForm = ({ navigation }) => {
         <TextInput
           label="Address"
           placeholder="Enter Your Residential Address"
-          value={address}
+          value={newaddress}
           style={styles.input}
           onChangeText={(text) => setAddress(text)}
-          mode="outlined"
-          outlineColor="black"
-          activeOutlineColor="#1e90ff"
-        />
-
-        <TextInput
-          label="Password"
-          placeholder="Enter Your Password"
-          value={password}
-          style={styles.input}
-          onChangeText={(text) => setPassword(text)}
-          mode="outlined"
-          outlineColor="black"
-          activeOutlineColor="#1e90ff"
-        />
-
-        <TextInput
-          label="Confirm Password"
-          placeholder="Re-Enter Your Password"
-          value={confirmPassword}
-          style={styles.input}
-          onChangeText={(text) => setConfirmPassword(text)}
           mode="outlined"
           outlineColor="black"
           activeOutlineColor="#1e90ff"
@@ -155,14 +121,8 @@ const PatientRegisterForm = ({ navigation }) => {
           buttonColor="#1e90ff"
           style={styles.button}
         >
-          Sign Up
+          Save Changes
         </Button>
-        <View style={styles.row}>
-          <Text>Already have an account? </Text>
-          <TouchableOpacity onPress={() => navigation.replace("Login")}>
-            <Text style={styles.link}>Login</Text>
-          </TouchableOpacity>
-        </View>
       </SafeAreaView>
       <Snackbar
         visible={visible}
@@ -170,16 +130,15 @@ const PatientRegisterForm = ({ navigation }) => {
         duration={2000}
         elevation={5}
       >
-        {errorMsg}
+        Profile Not Updated
       </Snackbar>
       <Snackbar
         visible={visibleSuccess}
         onDismiss={onDismissSuccessSnackBar}
         duration={2000}
-        action={{label: 'Login', onPress: () => navigation.replace("Login")}}
         elevation={5}
       >
-        Registered Successfully
+        Profile Update Successfully
       </Snackbar>
     </View>
   );
@@ -187,7 +146,7 @@ const PatientRegisterForm = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   input: {
-    margin: 5,
+    margin: 15,
     width: "90%",
     alignSelf: "center",
   },
@@ -208,15 +167,6 @@ const styles = StyleSheet.create({
     padding: 5,
     height: "100%",
   },
-  row: {
-    flexDirection: "row",
-    marginTop: 4,
-    justifyContent: "center",
-  },
-  link: {
-    fontWeight: "bold",
-    color: theme.colors.primary,
-  },
 });
 
-export default PatientRegisterForm;
+export default PatientUpdateForm;
