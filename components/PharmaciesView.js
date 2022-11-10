@@ -15,14 +15,13 @@ import {
 import { useEffect } from "react";
 import axios from "axios";
 import { ActivityIndicator } from "react-native-paper";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ChannelingCentersView = ({ navigation }) => {
+const PharmaciesView = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = React.useState(null);
   const onChangeSearch = (query) => setSearchQuery(query);
 
-  const [centers, setCenters] = React.useState([]);
-  const [deleteCenter, setDeleteCenter] = React.useState(null);
+  const [pharmacies, setPharmacies] = React.useState([]);
+  const [deletePharmacy, setDeletePharmacy] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [visible, setVisible] = React.useState(false);
   const [userdetails, setUserdetails] = React.useState(null);
@@ -34,34 +33,36 @@ const ChannelingCentersView = ({ navigation }) => {
   const hideDialog = () => setVisible(false);
 
   useEffect(() => {
-    const getCenters = () => {
+    const getPharmacies = () => {
       setLoading(true);
 
       axios
         .get("https://doc-n-pills.herokuapp.com/users")
         .then((res) => {
           console.log(res.data);
-          setCenters(res.data);
+          setPharmacies(res.data);
           setLoading(false);
         })
         .catch((err) => {
           alert(err.msg);
         });
-    }
-  console.log("userdetails",userdetails)
+    };
+    console.log("userdetails", userdetails);
 
-    getCenters();
+    getPharmacies();
   }, [refresh]);
 
-  const deleteChCenter = () => {
+  const deletePharmacyUser = () => {
     axios
-      .delete(`https://doc-n-pills.herokuapp.com/users/delete/${deleteCenter}`)
+      .delete(
+        `https://doc-n-pills.herokuapp.com/users/delete/${deletePharmacy}`
+      )
       .then(() => {
         setRefresh(!refresh);
-        alert("Center Deleted Successfully");
+        alert("Pharmacy Deleted Successfully");
       })
       .catch((err) => {
-        alert("Not Successful");
+        alert(err.msg);
       });
   };
 
@@ -82,50 +83,49 @@ const ChannelingCentersView = ({ navigation }) => {
         />
       ) : (
         <ScrollView>
-          {centers
-          .filter((userType) => 
-            userType.type == "Channeling Center Agent")
-          .map((center) => (
-            <Card
-              key={center._id}
-              style={{
-                backgroundColor: "#87cefa",
-                margin: 10,
-                borderRadius: 5,
-                display: "flex",
-              }}
-            >
-              <Card.Content>
-                <Title style={{ fontWeight: "bold" }}>{center.name}</Title>
-                <Paragraph>{center.location}</Paragraph>
-                <Paragraph>{center.openHours}</Paragraph>
-                <Paragraph>{center.availabilityStatus}</Paragraph>
-                <Paragraph>{center.telephone}</Paragraph>
-              </Card.Content>
-              <Card.Actions>
-                <FAB
-                  icon="pencil"
-                  color={"#1e90ff"}
-                  size="small"
-                  variant="surface"
-                  onPress={() => {
-                    navigation.navigate("Update Center", {
-                      params: { center, refresh, setRefresh },
-                    });
-                  }}
-                />
-                <FAB
-                  icon="delete"
-                  color={"#1e90ff"}
-                  size="small"
-                  variant="surface"
-                  onPress={() => {
-                    showDialog(), setDeleteCenter(center._id);
-                  }}
-                />
-              </Card.Actions>
-            </Card>
-          ))}
+          {pharmacies
+            .filter((userType) => userType.type == "Pharmacy Agent")
+            .map((pharmacy) => (
+              <Card
+                key={pharmacy._id}
+                style={{
+                  backgroundColor: "#87cefa",
+                  margin: 10,
+                  borderRadius: 5,
+                  display: "flex",
+                }}
+              >
+                <Card.Content>
+                  <Title style={{ fontWeight: "bold" }}>{pharmacy.name}</Title>
+                  <Paragraph>{pharmacy.location}</Paragraph>
+                  <Paragraph>{pharmacy.openHours}</Paragraph>
+                  <Paragraph>{pharmacy.availabilityStatus}</Paragraph>
+                  <Paragraph>{pharmacy.telephone}</Paragraph>
+                </Card.Content>
+                <Card.Actions>
+                  <FAB
+                    icon="pencil"
+                    color={"#1e90ff"}
+                    size="small"
+                    variant="surface"
+                    onPress={() => {
+                      navigation.navigate("Update Pharmacy", {
+                        params: { pharmacy, refresh, setRefresh },
+                      });
+                    }}
+                  />
+                  <FAB
+                    icon="delete"
+                    color={"#1e90ff"}
+                    size="small"
+                    variant="surface"
+                    onPress={() => {
+                      showDialog(), setDeletePharmacy(pharmacy._id);
+                    }}
+                  />
+                </Card.Actions>
+              </Card>
+            ))}
         </ScrollView>
       )}
 
@@ -133,10 +133,10 @@ const ChannelingCentersView = ({ navigation }) => {
         <View>
           <Portal>
             <Dialog visible={visible} onDismiss={hideDialog}>
-              <Dialog.Title>Delete Center</Dialog.Title>
+              <Dialog.Title>Delete Pharmacy</Dialog.Title>
               <Dialog.Content>
                 <Paragraph>
-                  Are you sure want to delete this center ?
+                  Are you sure want to delete this pharmacy ?
                 </Paragraph>
               </Dialog.Content>
               <Dialog.Actions>
@@ -146,7 +146,7 @@ const ChannelingCentersView = ({ navigation }) => {
                 </Button>
                 <Button
                   onPress={() => {
-                    deleteChCenter(), hideDialog();
+                    deletePharmacyUser(), hideDialog();
                   }}
                   textColor={"red"}
                 >
@@ -176,4 +176,4 @@ const ChannelingCentersView = ({ navigation }) => {
   );
 };
 
-export default ChannelingCentersView;
+export default PharmaciesView;

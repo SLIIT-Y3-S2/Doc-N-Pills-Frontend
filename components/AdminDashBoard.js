@@ -1,15 +1,30 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import { Button } from "react-native-paper";
+import { Image, StyleSheet, View } from "react-native";
+import { Button, Title } from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Background from "./Assets/Background";
+import Logo from "./Assets/Logo";
+import Header from "./Assets/Header";
+import Center from "./Assets/ChCenter"
 
 const AdminDashBoard = ({ navigation }) => {
   return (
-    <View>
-      <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+    <View style={{ backgroundColor: "white", height: "100%" }}>
+      <Image source={require("../assets/logoNoBG.png")} style={styles.image} />
+      <View style={{flexDirection:"row", justifyContent:"center"}}>
+        <Title>Continue with ...</Title>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          marginTop: 20,
+        }}
+      >
         <Button
+          icon="stethoscope"
           textColor="white"
-          backgroundColor={"#87cefa"}
+          backgroundColor={"#1e90ff"}
           borderRadius={5}
           mode="elevated"
           style={styles.button}
@@ -17,28 +32,26 @@ const AdminDashBoard = ({ navigation }) => {
             navigation.navigate("AdminNavBar", { screen: "Channeling Centers" })
           }
         >
-          Medicines{"  "}
-          <Ionicons name="navigate" size={15} color="white" />
+          Centers
         </Button>
-
         <Button
-          icon="doctor"
+          icon="pill"
           textColor="white"
-          backgroundColor={"#87cefa"}
+          backgroundColor={"#1e90ff"}
           borderRadius={5}
           size={50}
           mode="elevated"
           style={styles.button}
           onPress={() =>
-            navigation.navigate("PatientNavBar", { screen: "Search Doctor" })
+            navigation.navigate("AdminNavBar", { screen: "Pharmacies" })
           }
         >
-          Doctors
+          Pharmacies
         </Button>
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   button: {
@@ -46,13 +59,13 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingBottom: 50,
     color: "white",
-    backgroundColor: "#87cefa",
-    borderRadius: 10,
-    marginTop: 100,
     backgroundColor: "#1e90ff",
-    marginLeft: 10,
-    marginRight: 10,
   },
+  image: {
+    width: 350,
+    height: 350,
+    marginTop: 50,
+  }
 });
 
 export default AdminDashBoard;
