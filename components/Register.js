@@ -14,6 +14,8 @@ import RNPickerSelect from "react-native-picker-select";
 
 // const API_URL = "https://doc-n-pills.herokuapp.com/";
 
+const CONTACT_NUMBER_REGEX = /^[0-9]{10}$/;
+
 export default function Register({ route, navigation }) {
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
@@ -111,6 +113,7 @@ export default function Register({ route, navigation }) {
         />
         <TextInput
           label="Telephone"
+          keyboardType="numeric"
           returnKeyType="next"
           value={telephone}
           style={styles.input}
@@ -185,74 +188,6 @@ export default function Register({ route, navigation }) {
           </View>
         </RadioButton.Group>
         </View>
-
-        {/* <View>
-          <Text style={styles.input}>
-            Availability Status
-          </Text>
-          <RadioButton
-            value="first"
-            status={checked === "first" ? "checked" : "unchecked"}
-            onPress={() => setChecked("first")}
-            outlineColor="black"
-            activeOutlineColor="#1e90ff"
-          />
-          <RadioButton
-            value="second"
-            status={checked === "second" ? "checked" : "unchecked"}
-            onPress={() => setChecked("second")}
-          />
-        </View> */}
-
-        {/* <View
-      style={{
-        margin: 12,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 5,
-      }}>
-      <RNPickerSelect
-        placeholder={{label: 'Availability Status', value: null}}
-        onValueChange={(availabilityStatus) => setAvailabilityStatus(availabilityStatus)}
-        value={availabilityStatus}
-        items={[
-          { label: 'Available', value: 'Available' },
-          { label: 'Not Available', value: 'Not Available' },
-        ]}
-      />
-      </View> */}
-
-        {/* <TextInput
-        label="Availability Status"
-        returnKeyType="next"
-        value={availabilityStatus}
-        onChangeText={(text) => setAvailabilityStatus(text)}
-      /> */}
-
-        {/* <View
-      style={{
-        margin: 12,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 5,
-      }}>
-      <RNPickerSelect
-        placeholder={{label: 'User Type', value: null}}
-        onValueChange={(type) => setType(type)}
-        value={type}
-        items={[
-          { label: 'Pharmacy Agent', value: 'Pharmacy Agent' },
-          { label: 'Channeling Center Agent', value: 'Channeling Center Agent' },
-        ]}
-      />
-      </View> */}
-
-        {/* <TextInput
-        label="User Type"
-        returnKeyType="next"
-        value={type}
-        onChangeText={(text) => setType(text)}
-      /> */}
         <TextInput
           label="Password"
           returnKeyType="done"
