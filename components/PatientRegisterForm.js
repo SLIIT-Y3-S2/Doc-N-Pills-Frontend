@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { TextInput, Button ,Snackbar} from "react-native-paper";
+import { TextInput, Button ,Snackbar,ActivityIndicator} from "react-native-paper";
 import { theme } from "./core/theme";
 
 const PatientRegisterForm = ({ navigation }) => {
@@ -22,6 +22,7 @@ const PatientRegisterForm = ({ navigation }) => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [visible, setVisible] = useState(false);
   const [visibleSuccess, setVisibleSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onToggleSuccessSnackBar = () => {
     setVisibleSuccess(!visibleSuccess);
@@ -29,6 +30,7 @@ const PatientRegisterForm = ({ navigation }) => {
 
   const onDismissSuccessSnackBar = () => {
     setVisibleSuccess(false)
+    navigation.navigate("Login");
   };
 
   const onToggleSnackBar = () => {
@@ -36,11 +38,11 @@ const PatientRegisterForm = ({ navigation }) => {
   }
 
   const onDismissSnackBar = () => {
-    setVisible(false);
-    navigation.navigate("Login");
+    setVisible(false); 
   }
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const newPatient = {
         name,
@@ -55,10 +57,12 @@ const PatientRegisterForm = ({ navigation }) => {
         newPatient
       );
       onToggleSuccessSnackBar();
+      setLoading(false);
     } catch (err) {
       console.log(err.response.data.msg);
       setErrorMsg(err.response.data.msg);
       onToggleSnackBar();
+      setLoading(false);
     }
   };
 
@@ -148,15 +152,19 @@ const PatientRegisterForm = ({ navigation }) => {
           outlineColor="black"
           activeOutlineColor="#1e90ff"
         />
+        {loading ? (
+          <ActivityIndicator animating={true} size="large" color={"#1e90ff"} />
+        ) : (
+          <Button
+            onPress={handleSubmit}
+            mode="contained"
+            buttonColor="#1e90ff"
+            style={styles.button}
+          >
+            Sign Up
+          </Button>
+        )}
 
-        <Button
-          onPress={handleSubmit}
-          mode="contained"
-          buttonColor="#1e90ff"
-          style={styles.button}
-        >
-          Sign Up
-        </Button>
         <View style={styles.row}>
           <Text>Already have an account? </Text>
           <TouchableOpacity onPress={() => navigation.replace("Login")}>
@@ -176,7 +184,7 @@ const PatientRegisterForm = ({ navigation }) => {
         visible={visibleSuccess}
         onDismiss={onDismissSuccessSnackBar}
         duration={2000}
-        action={{label: 'Login', onPress: () => navigation.replace("Login")}}
+        action={{ label: "Login", onPress: () => navigation.replace("Login") }}
         elevation={5}
       >
         Registered Successfully
