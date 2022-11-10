@@ -51,7 +51,7 @@ const ChannelingCentersView = ({ navigation }) => {
   console.log("userdetails",userdetails)
 
     getCenters();
-  }, []);
+  }, [refresh]);
 
   const deleteChCenter = () => {
     axios

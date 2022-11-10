@@ -1,11 +1,15 @@
-import React from "react";
-import { SafeAreaView, Text, ScrollView, StyleSheet } from "react-native";
-import { TextInput, Button } from "react-native-paper";
-import { useState } from "react";
+import React, { useState } from "react";
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Image,
+  View,
+} from "react-native";
+import { TextInput, Button, RadioButton, Text } from "react-native-paper";
 import axios from "axios";
 import BackButton from "./Assets/BackButton";
 import Header from "./Assets/Header";
-import RNPickerSelect from "react-native-picker-select";
 
 const UpdatePharmacy = ({ route, navigation }) => {
   const center = route.params.params.pharmacy;
@@ -46,6 +50,10 @@ const UpdatePharmacy = ({ route, navigation }) => {
 
   return (
     <ScrollView style={styles.view}>
+      <Image
+        source={require("../assets/logo.png")}
+        style={{ width: 230, height: 230, marginLeft: "18%" }}
+      />
       <SafeAreaView style={styles.form}>
         <Header>Update Agents</Header>
         <TextInput
@@ -98,25 +106,22 @@ const UpdatePharmacy = ({ route, navigation }) => {
           activeOutlineColor="#1e90ff"
         />
 
-        <View
-          style={{
-            margin: 12,
-            borderWidth: 1,
-            borderColor: "black",
-            borderRadius: 5,
-          }}
-        >
-          <RNPickerSelect
-            placeholder={{ label: "Availability Status", value: null }}
-            onValueChange={(availabilityStatus) =>
-              setAvailabilityStatus(availabilityStatus)
-            }
+        <View style={styles.input}>
+          <Text>Availability Status</Text>
+
+          <RadioButton.Group
+            onValueChange={(newValue) => setAvailabilityStatus(newValue)}
             value={availabilityStatus}
-            items={[
-              { label: "Available", value: "Available" },
-              { label: "Not Available", value: "Not Available" },
-            ]}
-          />
+          >
+            <View>
+              <Text>Available</Text>
+              <RadioButton value="Available" />
+            </View>
+            <View>
+              <Text>Not Available</Text>
+              <RadioButton value="NotAvailable" />
+            </View>
+          </RadioButton.Group>
         </View>
 
         {/* <TextInput

@@ -50,7 +50,7 @@ const PharmaciesView = ({ navigation }) => {
     console.log("userdetails", userdetails);
 
     getPharmacies();
-  }, []);
+  }, [refresh]);
 
   const deletePharmacyUser = () => {
     axios
