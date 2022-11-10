@@ -18,6 +18,9 @@ import ChannelingCenterBottomNavBar from "./components/ChannelingCenterBottomNav
 import ChannelingCenterHome from "./components/ChannelingCenterHome";
 import AddDoctorForm from "./components/AddDoctorForm";
 import UpdateDoctorForm from "./components/UpdateDoctorForm";
+import PharmaciesView from './components/PharmaciesView';
+import UpdateCenter from './components/UpdateCenter';
+import UpdatePharmacy from './components/UpdatePharmacy';
 import Doctors from "./components/Doctors";
 import PatientUpdateForm from "./components/PatientUpdateForm";
 
@@ -42,7 +45,6 @@ export default function App() {
           <Stack.Screen
             name="Register"
             component={Register}
-            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="View Channeling Centers"
@@ -109,6 +111,19 @@ export default function App() {
             name="Update Doctor"
             component={UpdateDoctorForm}
             options={{ headerTitleAlign: "center" }}
+          />
+          <Stack.Screen 
+            name="View pharmacy"
+            component={PharmaciesView}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Update Center"
+            component={UpdateCenter}
+          />
+          <Stack.Screen
+            name="Update Pharmacy"
+            component={UpdatePharmacy}
           />
         </Stack.Navigator>
       </NavigationContainer>
