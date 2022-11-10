@@ -177,7 +177,7 @@ const SearchDoctor = () => {
                   style={{ alignSelf: "flex-end" }}
                 />
                 <Image
-                  source={require("../assets/medicine.webp")}
+                  source={require("../assets/channeling.jpeg")}
                   style={{
                     width: "100%",
                     height: 173,

@@ -1,23 +1,32 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
-import { View, Image, StyleSheet} from "react-native";
-import { Button, Card, Title, Paragraph, Provider,Dialog,Portal } from "react-native-paper";
+import { View, Image, StyleSheet } from "react-native";
+import {
+  Button,
+  Card,
+  Title,
+  Paragraph,
+  Provider,
+  Dialog,
+  Portal,
+} from "react-native-paper";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-const PatientProfile = ({navigation}) => {
+const PatientProfile = ({ navigation }) => {
   const [id, setId] = useState(null);
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
   const [mobile, setMobile] = useState(null);
   const [address, setAddress] = useState(null);
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const showDialog = () => {
     setVisible(true);
   };
   const hideDialog = () => {
     setVisible(false);
-  }
+  };
 
   const getUser = async () => {
     try {
@@ -35,9 +44,9 @@ const PatientProfile = ({navigation}) => {
     }
   };
 
-  useEffect(() => { 
+  useEffect(() => {
     getUser();
-  });
+  }, [refresh]);
 
   const handlelogout = () => {
     AsyncStorage.removeItem("id");
@@ -132,6 +141,11 @@ const PatientProfile = ({navigation}) => {
           mode="elevated"
           textColor="#1e90ff"
           style={styles.button}
+          onPress={() =>
+            navigation.navigate("Update Patient", {
+              params: { id, name, email, mobile, address, refresh, setRefresh },
+            })
+          }
         >
           Edit
         </Button>
