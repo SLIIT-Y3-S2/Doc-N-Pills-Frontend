@@ -31,6 +31,8 @@ const Doctors = ({ navigation }) => {
 
   const [id, setId] = React.useState(null);
 
+  const [refresh, setRefresh] = React.useState(false);
+
   const showDialog = () => {
     setVisible(true);
   };
@@ -51,7 +53,7 @@ const Doctors = ({ navigation }) => {
         });
     };
     getDoctors();
-  }, [searchQuery]);
+  }, [searchQuery, refresh]);
 
   useEffect(() => {
     const getUser = async () => {
@@ -73,6 +75,7 @@ const Doctors = ({ navigation }) => {
     axios
       .delete(`https://doc-n-pills.herokuapp.com/doctor/${deletemed}`)
       .then(() => {
+        setRefresh(!refresh);
         alert("Doctor Deleted Successfully");
       })
       .catch((err) => {
@@ -105,13 +108,13 @@ const Doctors = ({ navigation }) => {
       <Searchbar
         placeholder="Search"
         onChangeText={(searchTerm) => {
-          setSearchQuery(searchTerm);
+          handleTextSearch(searchTerm);
         }}
         value={searchQuery}
       />
       {loading ? (<ActivityIndicator animating={true} size='large' color={'#1e90ff'} style={{marginTop:'50%'}} />):(
       <ScrollView>
-        {doctors.map((doctor) => (
+        {doctors.filter((channelingCenterId) => channelingCenterId.channelingCenterId === id).map((doctor) => (
           <Card
             key={doctor._id}
             style={{
@@ -140,7 +143,7 @@ const Doctors = ({ navigation }) => {
                 variant="surface"
                 onPress={() => {
                   navigation.navigate("Update Doctor", {
-                    params: { doctor },
+                    params: { doctor, refresh, setRefresh  },
                   });
                 }}
               />
@@ -193,7 +196,9 @@ const Doctors = ({ navigation }) => {
           size={40}
           backgroundColor={"#1e90ff"}
           borderRadius={10}
-          onPress={() => navigation.navigate("Add Doctor")}
+          onPress={() => navigation.navigate("Add Doctor", {
+            params: { refresh, setRefresh },
+          })}
         />
       </View>
     </>

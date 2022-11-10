@@ -1,12 +1,15 @@
 import React from "react";
-import { SafeAreaView, Text, ScrollView, StyleSheet, Image } from "react-native";
+import { SafeAreaView, Text, ScrollView, StyleSheet, Image, View } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { useState } from "react";
 import axios from "axios";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import RNPickerSelect from "react-native-picker-select";
 
 const UpdateDoctorForm = ({ route, navigation }) => {
   const doctor = route.params.params.doctor;
+  const refresh = route.params.params.refresh;
+  const setRefresh = route.params.params.setRefresh;
   const [validated, setvalidated] = useState(false);
   const [dname, setDoctorName] = useState(doctor.name);
   const [splze, setSpecialization] = useState(doctor.specialization);
@@ -65,6 +68,7 @@ const UpdateDoctorForm = ({ route, navigation }) => {
     axios
       .put(`https://doc-n-pills.herokuapp.com/doctor/${doctor._id}`, newDoctor)
       .then(() => {
+        setRefresh(!refresh);
         alert("Doctor Updated Successfully");
       })
       .catch((err) => {
@@ -104,27 +108,29 @@ const UpdateDoctorForm = ({ route, navigation }) => {
           activeOutlineColor="#1e90ff"
         />
 
-        <TextInput
-          label="AvailableDate"
-          placeholder="Enter Available Date"
-          value={adate}
-          style={styles.input}
-          onChangeText={(text) => setDate(text)}
-          mode="outlined"
-          outlineColor="black"
-          activeOutlineColor="#1e90ff"
-        />
-
-        {/* <TextInput
-          label="AvailableTime"
-          placeholder="Enter Available Time"
-          value={atime}
-          style={styles.input}
-          onChangeText={(text) => setTime1(text)}
-          mode="outlined"
-          outlineColor="black"
-          activeOutlineColor="#1e90ff"
-        /> */}
+<View
+          style={{
+            margin: 12,
+            borderWidth: 1,
+            borderColor: "black",
+            borderRadius: 5,
+          }}
+        >
+          <RNPickerSelect
+            placeholder={{ label: "Select date ", value: null }}
+            onValueChange={(type) => setDate(type)}
+            value={adate}
+            items={[
+              { label: "Monday", value: "Monday" },
+              { label: "Tuesday", value: "Tuesday" },
+              { label: "Wednesday", value: "Wednesday" },
+              { label: "Thursday", value: "Thursday" },
+              { label: "Friday", value: "Friday" },
+              { label: "Saturday", value: "Saturday" },
+              { label: "Sunday", value: "Sunday" },
+            ]}
+          />
+        </View>
 
 <TextInput
           label="Arrival Time"

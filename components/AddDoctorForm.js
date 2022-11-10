@@ -11,8 +11,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import RNPickerSelect from "react-native-picker-select";
 
-const AddDoctorForm = ({ navigation }) => {
+const AddDoctorForm = ({route, navigation }) => {
   //const [value, setValue] = React.useState(dayjs('2018-01-01T00:00:00.000Z'));
   const [validated, setvalidated] = useState(false);
   const [dname, setDoctorName] = useState(null);
@@ -28,6 +29,9 @@ const AddDoctorForm = ({ navigation }) => {
 
   const [id, setId] = useState(null);
   const [name, setName] = useState(null);
+  
+  const refresh = route.params.params.refresh;
+  const setRefresh = route.params.params.setRefresh;
   
 
   const onChange1 = (event, selectedDate) => {
@@ -85,6 +89,7 @@ const AddDoctorForm = ({ navigation }) => {
     await axios
       .post("https://doc-n-pills.herokuapp.com/doctor", newDoctor)
       .then(() => {
+        setRefresh(!refresh);
         alert("Doctor Added Successfully");
       })
       .catch((err) => {
@@ -140,7 +145,7 @@ useEffect(() => {
           activeOutlineColor="#1e90ff"
         />
 
-        <TextInput
+        {/* <TextInput
           label="AvailableDate"
           placeholder="Enter Available Date"
           value={adate}
@@ -149,7 +154,31 @@ useEffect(() => {
           mode="outlined"
           outlineColor="black"
           activeOutlineColor="#1e90ff"
-        />
+        /> */}
+
+<View
+          style={{
+            margin: 12,
+            borderWidth: 1,
+            borderColor: "black",
+            borderRadius: 5,
+          }}
+        >
+          <RNPickerSelect
+            placeholder={{ label: "Select date ", value: null }}
+            onValueChange={(type) => setDates(type)}
+            value={adate}
+            items={[
+              { label: "Monday", value: "Monday" },
+              { label: "Tuesday", value: "Tuesday" },
+              { label: "Wednesday", value: "Wednesday" },
+              { label: "Thursday", value: "Thursday" },
+              { label: "Friday", value: "Friday" },
+              { label: "Saturday", value: "Saturday" },
+              { label: "Sunday", value: "Sunday" },
+            ]}
+          />
+        </View>
 
         <TextInput
           label="Arrival Time"
