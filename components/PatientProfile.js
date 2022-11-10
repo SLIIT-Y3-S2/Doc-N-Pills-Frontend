@@ -79,12 +79,12 @@ const PatientProfile = ({ navigation }) => {
 
   return (
     <View style={{ backgroundColor: "white", height: "100%" }}>
-      <View style={{ flexDirection: "row", justifyContent: "center" }}>
+      <View style={{ flexDirection: "row", justifyContent: "center", height:"20%" }}>
         <Image
           source={require("../assets/patient.png")}
           style={{
-            width: "60%",
-            height: 250,
+            width: "40%",
+            height: "100%",
             marginBottom: 10,
             borderRadius: 10,
             borderColor: "#1e90ff",

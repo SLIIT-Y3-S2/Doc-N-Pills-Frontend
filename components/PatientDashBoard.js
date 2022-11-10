@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#1e90ff",
   },
   image: {
-    width: 400,
-    height: 500,
+    width: "100%",
+    height: "60%",
   },
 });
 
