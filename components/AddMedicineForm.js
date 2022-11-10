@@ -8,7 +8,12 @@ import {
   View,
   Text,
 } from "react-native";
-import { TextInput, Button, Snackbar } from "react-native-paper";
+import {
+  TextInput,
+  Button,
+  Snackbar,
+  ActivityIndicator,
+} from "react-native-paper";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import RNPickerSelect from "react-native-picker-select";
@@ -21,6 +26,8 @@ const AddMedicineForm = ({ route, navigation }) => {
   const [stock, setStock] = useState(null);
   const [price, setPrice] = useState(null);
   const [dose, setDose] = useState(null);
+
+  const [loading, setLoading] = React.useState(false);
 
   const [id, setId] = useState(null);
   const [name, setName] = useState(null);
@@ -46,6 +53,7 @@ const AddMedicineForm = ({ route, navigation }) => {
 
   const onDismissErrorSnackBar = () => {
     setVisibleError(false);
+    setLoading(false);
   };
 
   const checkSubmit = async () => {
@@ -68,10 +76,12 @@ const AddMedicineForm = ({ route, navigation }) => {
       price != null &&
       dose != null
     ) {
+      setLoading(true);
       await axios
         .post("https://doc-n-pills.herokuapp.com/medicine", newMedicine)
         .then(() => {
           setRefresh(!refresh);
+          setLoading(false);
           // alert("Medicine Added Successfully");
           onToggleSuccessSnackBar();
         })
@@ -203,14 +213,23 @@ const AddMedicineForm = ({ route, navigation }) => {
             activeOutlineColor="#1e90ff"
           />
 
-          <Button
-            mode="contained"
-            buttonColor="#1e90ff"
-            style={styles.button}
-            onPress={checkSubmit}
-          >
-            ADD
-          </Button>
+          {loading ? (
+            <ActivityIndicator
+              animating={true}
+              size="large"
+              color={"#1e90ff"}
+              // style={{ marginTop: "50%" }}
+            />
+          ) : (
+            <Button
+              mode="contained"
+              buttonColor="#1e90ff"
+              style={styles.button}
+              onPress={checkSubmit}
+            >
+              ADD
+            </Button>
+          )}
         </SafeAreaView>
       </ScrollView>
 
