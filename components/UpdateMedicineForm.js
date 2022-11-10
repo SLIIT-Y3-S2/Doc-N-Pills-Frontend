@@ -6,7 +6,12 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import { TextInput, Button, Snackbar } from "react-native-paper";
+import {
+  TextInput,
+  Button,
+  Snackbar,
+  ActivityIndicator,
+} from "react-native-paper";
 import { useState } from "react";
 import axios from "axios";
 import RNPickerSelect from "react-native-picker-select";
@@ -24,6 +29,8 @@ const UpdateMedicineForm = ({ route, navigation }) => {
   const [stock, setStock] = useState(medicine.qty);
   const [price, setPrice] = useState(medicine.price);
   const [dose, setDose] = useState(medicine.dose);
+
+  const [loading, setLoading] = React.useState(false);
 
   const [visibleError, setVisibleError] = useState(false);
   const [visibleSuccess, setVisibleSuccess] = useState(false);
@@ -43,6 +50,7 @@ const UpdateMedicineForm = ({ route, navigation }) => {
 
   const onDismissErrorSnackBar = () => {
     setVisibleError(false);
+    setLoading(false);
   };
 
   const checkSubmit = () => {
@@ -63,6 +71,7 @@ const UpdateMedicineForm = ({ route, navigation }) => {
       price != null &&
       dose != null
     ) {
+      setLoading(true);
       axios
         .put(
           `https://doc-n-pills.herokuapp.com/medicine/${medicine._id}`,
@@ -71,6 +80,7 @@ const UpdateMedicineForm = ({ route, navigation }) => {
         .then(() => {
           setRefresh(!refresh);
           // alert("Medicine Updated Successfully");
+          setLoading(false);
           onToggleSuccessSnackBar();
         })
         .catch((err) => {
@@ -185,14 +195,23 @@ const UpdateMedicineForm = ({ route, navigation }) => {
             activeOutlineColor="#1e90ff"
           />
 
-          <Button
-            onPress={checkSubmit}
-            mode="contained"
-            buttonColor="#1e90ff"
-            style={styles.button}
-          >
-            SAVE CHANGES
-          </Button>
+          {loading ? (
+            <ActivityIndicator
+              animating={true}
+              size="large"
+              color={"#1e90ff"}
+              // style={{ marginTop: "50%" }}
+            />
+          ) : (
+            <Button
+              onPress={checkSubmit}
+              mode="contained"
+              buttonColor="#1e90ff"
+              style={styles.button}
+            >
+              SAVE CHANGES
+            </Button>
+          )}
         </SafeAreaView>
       </ScrollView>
 
