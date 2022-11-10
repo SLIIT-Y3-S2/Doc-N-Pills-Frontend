@@ -11,14 +11,15 @@ import {
   Provider,
   Button,
   FAB,
+  ActivityIndicator,
+  Snackbar,
 } from "react-native-paper";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { ActivityIndicator } from "react-native-paper";
 
 const PharmaciesView = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = React.useState(null);
-  const onChangeSearch = (query) => setSearchQuery(query);
+  // const onChangeSearch = (query) => setSearchQuery(query);
 
   const [pharmacies, setPharmacies] = React.useState([]);
   const [deletePharmacy, setDeletePharmacy] = React.useState(null);
@@ -26,6 +27,25 @@ const PharmaciesView = ({ navigation }) => {
   const [visible, setVisible] = React.useState(false);
   const [userdetails, setUserdetails] = React.useState(null);
   const [refresh, setRefresh] = React.useState(false);
+
+  const [visibleError, setVisibleError] = useState(false);
+  const [visibleSuccess, setVisibleSuccess] = useState(false);
+
+  const onToggleSuccessSnackBar = () => {
+    setVisibleSuccess(!visibleSuccess);
+  };
+
+  const onDismissSuccessSnackBar = () => {
+    setVisibleSuccess(false);
+  };
+
+  const onToggleErrorSnackBar = () => {
+    setVisibleError(!visibleError);
+  };
+
+  const onDismissErrorSnackBar = () => {
+    setVisibleError(false);
+  };
 
   const showDialog = () => {
     setVisible(true);
