@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Searchbar } from "react-native-paper";
@@ -13,6 +13,7 @@ import {
   Button,
   FAB,
   ActivityIndicator,
+  Snackbar,
 } from "react-native-paper";
 import axios from "axios";
 
@@ -30,13 +31,32 @@ const Medicines = ({ navigation }) => {
 
   const [refresh, setRefresh] = React.useState(false);
 
+  const [visibleError, setVisibleError] = useState(false);
+  const [visibleSuccess, setVisibleSuccess] = useState(false);
+
+  const onToggleSuccessSnackBar = () => {
+    setVisibleSuccess(!visibleSuccess);
+  };
+
+  const onDismissSuccessSnackBar = () => {
+    setVisibleSuccess(false);
+  };
+
+  const onToggleErrorSnackBar = () => {
+    setVisibleError(!visibleError);
+  };
+
+  const onDismissErrorSnackBar = () => {
+    setVisibleError(false);
+  };
+
   const showDialog = () => {
     setVisible(true);
   };
   const hideDialog = () => setVisible(false);
 
-  useEffect(() => {
-    const getMedicines = () => {
+  const getMedicines = () => {
+    if (searchQuery === "") {
       setLoading(true);
       axios
         .get("https://doc-n-pills.herokuapp.com/medicine")
@@ -47,15 +67,23 @@ const Medicines = ({ navigation }) => {
         .catch((err) => {
           alert(err.msg);
         });
-    };
-    getMedicines();
-  }, [searchQuery, refresh]);
+    } else {
+      handleTextSearch();
+    }
+  };
+
+  useEffect(
+    () => {
+      getMedicines();
+    },
+    [searchQuery],
+    [refresh]
+  );
 
   useEffect(() => {
     const getUser = async () => {
       try {
         AsyncStorage.getItem("id").then((data) => {
-          console.log("data", data);
           let user = JSON.parse(data);
           setId(user.id);
         });
@@ -71,29 +99,32 @@ const Medicines = ({ navigation }) => {
       .delete(`https://doc-n-pills.herokuapp.com/medicine/${deletemed}`)
       .then(() => {
         setRefresh(!refresh);
-        alert("Medicine Deleted Successfully");
+        // alert("Medicine Deleted Successfully");
+        onToggleSuccessSnackBar();
       })
       .catch((err) => {
-        alert("Not Successful");
+        // alert("Not Successful");
+        onToggleErrorSnackBar();
       });
   };
 
   const filterContent = (medicines, searchTerm) => {
     const result = medicines.filter(
       (medicine) =>
-        medicine.brandName.toLowerCase().includes(searchTerm) ||
-        medicine.medicalTerm.toLowerCase().includes(searchTerm)
+        medicine.brandName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        medicine.medicalTerm.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setMedicine(result);
   };
 
-  const handleTextSearch = (searchTerm) => {
-    setSearchQuery(searchTerm);
-    axios.get("https://doc-n-pills.herokuapp.com/medicine").then((res) => {
-      if (res.data) {
-        filterContent(res.data, searchTerm);
-      }
-    });
+  const handleTextSearch = async () => {
+    await axios
+      .get("https://doc-n-pills.herokuapp.com/medicine")
+      .then((res) => {
+        if (res.data) {
+          filterContent(res.data, searchQuery);
+        }
+      });
   };
 
   return (
@@ -101,7 +132,7 @@ const Medicines = ({ navigation }) => {
       <Searchbar
         placeholder="Search"
         onChangeText={(searchTerm) => {
-          handleTextSearch(searchTerm);
+          setSearchQuery(searchTerm);
         }}
         value={searchQuery}
       />
@@ -208,6 +239,23 @@ const Medicines = ({ navigation }) => {
           }}
         />
       </View>
+
+      <Snackbar
+        visible={visibleError}
+        onDismiss={onDismissErrorSnackBar}
+        duration={2000}
+        elevation={5}
+      >
+        Not Successful
+      </Snackbar>
+      <Snackbar
+        visible={visibleSuccess}
+        onDismiss={onDismissSuccessSnackBar}
+        duration={2000}
+        elevation={5}
+      >
+        Medicine Deleted Successfully
+      </Snackbar>
     </>
   );
 };
