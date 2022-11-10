@@ -3,17 +3,53 @@ import React, { useEffect } from "react";
 import { View, ScrollView, StyleSheet, Image } from "react-native";
 import {
   Searchbar,
-  Text,
   Card,
   Title,
   Paragraph,
   ActivityIndicator,
+  Text,
+  Modal,
+  Portal,
+  Provider,
+  IconButton,
 } from "react-native-paper";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const SearchDoctor = () => {
   const [searchQuery, setSearchQuery] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [docotors, setDoctors] = React.useState([]);
+  const [visible, setVisible] = React.useState(false);
+  const [channelingCenter, setChannelingCenter] = React.useState(null);
+  const containerStyle = {
+    backgroundColor: "white",
+    paddingBottom: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    width: "90%",
+    borderRadius: 20,
+    alignSelf: "center",
+  };
+
+  const viewChannelingCenter = async (id) => {
+    try {
+      await axios
+        .get(`https://doc-n-pills.herokuapp.com/users/${id}`)
+        .then((res) => {
+          setChannelingCenter(res.data);
+          setVisible(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const hideModal = () => {
+    setVisible(false);
+  };
 
   const onChangeSearch = (query) => {
     setSearchQuery(query);
@@ -71,7 +107,10 @@ const SearchDoctor = () => {
             marginTop: 20,
           }}
         >
-          <Image source={require("../assets/channeling.jpeg")} style={styles.image} />
+          <Image
+            source={require("../assets/channeling.jpeg")}
+            style={styles.image}
+          />
         </View>
       ) : loading ? (
         <ActivityIndicator
@@ -90,6 +129,7 @@ const SearchDoctor = () => {
                 borderRadius: 5,
                 display: "flex",
               }}
+              onPress={() => viewChannelingCenter(doctor.channelingCenterId)}
             >
               <Card.Content>
                 <Title style={{ fontWeight: "bold" }}>
@@ -122,6 +162,100 @@ const SearchDoctor = () => {
           <Text>Sorry... No Channeling Centers Found!</Text>
         </View>
       )}
+      {channelingCenter !== null ? (
+        <Provider>
+          <Portal>
+            <Modal
+              visible={visible}
+              onDismiss={hideModal}
+              contentContainerStyle={containerStyle}
+            >
+              <View>
+                <IconButton
+                  icon="close"
+                  onPress={hideModal}
+                  style={{ alignSelf: "flex-end" }}
+                />
+                <Image
+                  source={require("../assets/medicine.webp")}
+                  style={{
+                    width: "100%",
+                    height: 173,
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
+                  }}
+                />
+
+                <Card>
+                  <Card.Content>
+                    <Title style={{ textAlign: "center", fontWeight: "bold" }}>
+                      {channelingCenter.name}
+                    </Title>
+                  </Card.Content>
+                </Card>
+
+                <Card>
+                  <Card.Content>
+                    <Paragraph>
+                      <Ionicons name="card-outline" size={20} color="#1e90ff" />
+                      {"    "}
+                      {channelingCenter._id}
+                    </Paragraph>
+                  </Card.Content>
+                </Card>
+
+                <Card>
+                  <Card.Content>
+                    <Paragraph>
+                      <Ionicons name="call-outline" size={20} color="#1e90ff" />
+                      {"    "}
+                      {channelingCenter.telephone}
+                    </Paragraph>
+                  </Card.Content>
+                </Card>
+
+                <Card>
+                  <Card.Content>
+                    <Paragraph>
+                      <Ionicons name="mail-outline" size={20} color="#1e90ff" />
+                      {"    "}
+                      {channelingCenter.email}
+                    </Paragraph>
+                  </Card.Content>
+                </Card>
+
+                <Card>
+                  <Card.Content>
+                    <Paragraph>
+                      <Ionicons
+                        name="alarm-outline"
+                        size={20}
+                        color="#1e90ff"
+                      />
+                      {"    "}
+                      Open Hours: {channelingCenter.openHours}
+                    </Paragraph>
+                  </Card.Content>
+                </Card>
+
+                <Card>
+                  <Card.Content>
+                    <Paragraph>
+                      <Ionicons
+                        name="location-outline"
+                        size={20}
+                        color="#1e90ff"
+                      />
+                      {"    "}
+                      {channelingCenter.location}
+                    </Paragraph>
+                  </Card.Content>
+                </Card>
+              </View>
+            </Modal>
+          </Portal>
+        </Provider>
+      ) : null}
     </View>
   );
 };
