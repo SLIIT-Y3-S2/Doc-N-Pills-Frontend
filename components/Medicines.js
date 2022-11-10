@@ -76,8 +76,7 @@ const Medicines = ({ navigation }) => {
     () => {
       getMedicines();
     },
-    [searchQuery],
-    [refresh]
+    [searchQuery,refresh]   
   );
 
   useEffect(() => {
