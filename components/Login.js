@@ -21,34 +21,37 @@ export default function Login({ navigation }) {
     if (email.length == 0 || password.length == 0) {
       Alert.alert("Please fill all the fields");
     } else {
-      const loginUser = { email, password };
-      console.log(loginUser);
-      await axios
-        .post("https://doc-n-pills.herokuapp.com/users/login", loginUser)
-        //console.log("loginUser")
-        .then((data) => {
-          //  console.log("jjj" ,data.data);
-          if (data.data.user.email == "Invalid") {
-            Alert.alert("Login Error", "Invalid Credeintials ");
-          } else {
-            AsyncStorage.setItem("id", JSON.stringify(data.data.user));
-            AsyncStorage.setItem("token", data.data.token);
-            if (data.data.user.type == "Pharmacy Agent") {
-              navigation.push("DocNPills");
-            } else if (data.data.user.type == "Channeling Center Agent") {
-              navigation.push("ChCenterNavbar");
-            } else if (data.data.user.type == "Patient") {
-              navigation.push("PatientNavBar");
-            } else if (data.data.user.type == "System Admin") {
-              navigation.push("AdminNavBar");
-            } else {
-              Alert.alert(" You have to signup first ");
-            }
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    const loginUser = { email, password };
+    console.log(loginUser);
+    await axios.post('https://doc-n-pills.herokuapp.com/users/login', loginUser)
+    //console.log("loginUser")
+     .then((data) => {
+       console.log("jjj" ,data.data);
+       Alert.alert("Login Successfull");
+       if (data.data.user.email == 'Invalid') {
+         Alert.alert(
+           "Login Error",
+           "Invalid Credeintials "
+         )
+       } else {
+         AsyncStorage.setItem('id', JSON.stringify(data.data.user))
+         AsyncStorage.setItem('token', data.data.token)
+         if (data.data.user.type == 'Pharmacy Agent') {
+           navigation.push('DocNPills')
+         } else if (data.data.user.type == 'Channeling Center Agent') {
+           navigation.push('ChCenterNavbar')
+         } else if (data.data.user.type == 'Patient') {
+           navigation.push('PatientNavBar')
+         }  else if (data.data.user.type == 'System Admin') {
+            navigation.push('AdminNavBar')
+         } else {
+          Alert.alert(" You have to signup first ")
+         }
+       
+     }}).catch((err) => {
+       console.log(err)
+       Alert.alert(err)
+   })
 
       //navigation.push('Home')
       console.log("email", email);
@@ -104,7 +107,7 @@ export default function Login({ navigation }) {
       </Button>
       <View style={styles.row}>
         <Text>Don’t have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.replace("Register")}>
+        <TouchableOpacity onPress={() => navigation.replace("User Register")}>
           <Text style={styles.link}>Sign up</Text>
         </TouchableOpacity>
       </View>
