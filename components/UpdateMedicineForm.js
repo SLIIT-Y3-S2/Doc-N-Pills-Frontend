@@ -6,7 +6,7 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import { TextInput, Button } from "react-native-paper";
+import { TextInput, Button, Snackbar } from "react-native-paper";
 import { useState } from "react";
 import axios from "axios";
 import RNPickerSelect from "react-native-picker-select";
@@ -24,6 +24,26 @@ const UpdateMedicineForm = ({ route, navigation }) => {
   const [stock, setStock] = useState(medicine.qty);
   const [price, setPrice] = useState(medicine.price);
   const [dose, setDose] = useState(medicine.dose);
+
+  const [visibleError, setVisibleError] = useState(false);
+  const [visibleSuccess, setVisibleSuccess] = useState(false);
+
+  const onToggleSuccessSnackBar = () => {
+    setVisibleSuccess(!visibleSuccess);
+  };
+
+  const onDismissSuccessSnackBar = () => {
+    setVisibleSuccess(false);
+    navigation.navigate("DocNPills");
+  };
+
+  const onToggleErrorSnackBar = () => {
+    setVisibleError(!visibleError);
+  };
+
+  const onDismissErrorSnackBar = () => {
+    setVisibleError(false);
+  };
 
   const checkSubmit = () => {
     const newMedicine = {
@@ -50,10 +70,12 @@ const UpdateMedicineForm = ({ route, navigation }) => {
         )
         .then(() => {
           setRefresh(!refresh);
-          alert("Medicine Updated Successfully");
+          // alert("Medicine Updated Successfully");
+          onToggleSuccessSnackBar();
         })
         .catch((err) => {
-          alert("Error");
+          // alert("Error");
+          onToggleErrorSnackBar();
         });
     } else {
       alert("Please fill all the fields");
@@ -61,36 +83,37 @@ const UpdateMedicineForm = ({ route, navigation }) => {
   };
 
   return (
-    <ScrollView style={styles.view}>
-      <Image
-        source={require("../assets/logo.png")}
-        style={{ width: 50, height: 50, marginLeft: "42%" }}
-      />
-
-      <SafeAreaView style={styles.form}>
-        <TextInput
-          label="Brand Name"
-          placeholder="Enter Brand Name"
-          value={bname}
-          style={styles.input}
-          onChangeText={(text) => setBrandName(text)}
-          mode="outlined"
-          outlineColor="black"
-          activeOutlineColor="#1e90ff"
+    <>
+      <ScrollView style={styles.view}>
+        <Image
+          source={require("../assets/logo.png")}
+          style={{ width: 50, height: 50, marginLeft: "42%" }}
         />
 
-        <TextInput
-          label="Medical Term"
-          placeholder="Enter Medical Term"
-          value={mterm}
-          style={styles.input}
-          onChangeText={(text) => setMedicalTerm(text)}
-          mode="outlined"
-          outlineColor="black"
-          activeOutlineColor="#1e90ff"
-        />
+        <SafeAreaView style={styles.form}>
+          <TextInput
+            label="Brand Name"
+            placeholder="Enter Brand Name"
+            value={bname}
+            style={styles.input}
+            onChangeText={(text) => setBrandName(text)}
+            mode="outlined"
+            outlineColor="black"
+            activeOutlineColor="#1e90ff"
+          />
 
-        {/* <TextInput
+          <TextInput
+            label="Medical Term"
+            placeholder="Enter Medical Term"
+            value={mterm}
+            style={styles.input}
+            onChangeText={(text) => setMedicalTerm(text)}
+            mode="outlined"
+            outlineColor="black"
+            activeOutlineColor="#1e90ff"
+          />
+
+          {/* <TextInput
           label="Type"
           placeholder="Enter Type"
           value={type}
@@ -101,76 +124,95 @@ const UpdateMedicineForm = ({ route, navigation }) => {
           activeOutlineColor="#1e90ff"
         /> */}
 
-        <View
-          style={{
-            margin: 12,
-            borderWidth: 1,
-            borderColor: "black",
-            borderRadius: 5,
-          }}
-        >
-          <RNPickerSelect
-            placeholder={{ label: "Select type of the medicine ", value: null }}
-            onValueChange={(type) => setType(type)}
-            value={type}
-            items={[
-              { label: "Pill", value: "Pill" },
-              { label: "Capsule", value: "Capsule" },
-              { label: "Cream", value: "Cream" },
-              { label: "Spray", value: "Spray" },
-              { label: "Gel", value: "Gel" },
-              { label: "Other", value: "Other" },
-            ]}
+          <View
+            style={{
+              margin: 12,
+              borderWidth: 1,
+              borderColor: "black",
+              borderRadius: 5,
+            }}
+          >
+            <RNPickerSelect
+              placeholder={{
+                label: "Select type of the medicine ",
+                value: null,
+              }}
+              onValueChange={(type) => setType(type)}
+              value={type}
+              items={[
+                { label: "Pill", value: "Pill" },
+                { label: "Capsule", value: "Capsule" },
+                { label: "Cream", value: "Cream" },
+                { label: "Spray", value: "Spray" },
+                { label: "Gel", value: "Gel" },
+                { label: "Other", value: "Other" },
+              ]}
+            />
+          </View>
+
+          <TextInput
+            label="Stock"
+            placeholder="Enter Stock"
+            value={stock}
+            style={styles.input}
+            keyboardType="numeric"
+            onChangeText={(text) => setStock(text)}
+            mode="outlined"
+            outlineColor="black"
+            activeOutlineColor="#1e90ff"
           />
-        </View>
 
-        <TextInput
-          label="Stock"
-          placeholder="Enter Stock"
-          value={stock}
-          style={styles.input}
-          keyboardType="numeric"
-          onChangeText={(text) => setStock(text)}
-          mode="outlined"
-          outlineColor="black"
-          activeOutlineColor="#1e90ff"
-        />
+          <TextInput
+            label="Price"
+            placeholder="LKR 0.00"
+            value={price}
+            style={styles.input}
+            keyboardType="numeric"
+            onChangeText={(text) => setPrice(text)}
+            mode="outlined"
+            outlineColor="black"
+            activeOutlineColor="#1e90ff"
+          />
 
-        <TextInput
-          label="Price"
-          placeholder="LKR 0.00"
-          value={price}
-          style={styles.input}
-          keyboardType="numeric"
-          onChangeText={(text) => setPrice(text)}
-          mode="outlined"
-          outlineColor="black"
-          activeOutlineColor="#1e90ff"
-        />
+          <TextInput
+            label="Dose"
+            placeholder="Enter Dose"
+            value={dose}
+            style={styles.input}
+            onChangeText={(text) => setDose(text)}
+            mode="outlined"
+            outlineColor="black"
+            activeOutlineColor="#1e90ff"
+          />
 
-        <TextInput
-          label="Dose"
-          placeholder="Enter Dose"
-          value={dose}
-          style={styles.input}
-          onChangeText={(text) => setDose(text)}
-          mode="outlined"
-          outlineColor="black"
-          activeOutlineColor="#1e90ff"
-        />
+          <Button
+            onPress={checkSubmit}
+            mode="contained"
+            buttonColor="#1e90ff"
+            style={styles.button}
+          >
+            SAVE CHANGES
+          </Button>
+        </SafeAreaView>
+      </ScrollView>
 
-        <Button
-          onPress={() => {
-            checkSubmit(), navigation.navigate("DocNPills");
-          }}
-          mode="contained"
-          buttonColor="#1e90ff"
-          style={styles.button}
-        >
-          SAVE CHANGES
-        </Button>
-      </SafeAreaView>
-    </ScrollView>
+      <Snackbar
+        visible={visibleError}
+        onDismiss={onDismissErrorSnackBar}
+        duration={2000}
+        elevation={5}
+      >
+        Not Successful
+      </Snackbar>
+      <Snackbar
+        visible={visibleSuccess}
+        onDismiss={onDismissSuccessSnackBar}
+        duration={2000}
+        elevation={5}
+      >
+        Medicine Updated Successfully
+      </Snackbar>
+    </>
   );
 };
 

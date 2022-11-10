@@ -22,6 +22,7 @@ import PharmaciesView from './components/PharmaciesView';
 import UpdateCenter from './components/UpdateCenter';
 import UpdatePharmacy from './components/UpdatePharmacy';
 import Doctors from "./components/Doctors";
+import PatientUpdateForm from "./components/PatientUpdateForm";
 
 const Stack = createStackNavigator();
 
@@ -74,6 +75,11 @@ export default function App() {
           <Stack.Screen
             name="User Register"
             component={PatientRegisterForm}
+            options={{ headerTitleAlign: "center" }}
+          />
+          <Stack.Screen
+            name="Update Patient"
+            component={PatientUpdateForm}
             options={{ headerTitleAlign: "center" }}
           />
           <Stack.Screen
